@@ -125,7 +125,7 @@
 				"data": {
 					"name": "Nome",
 					"freq": "Ativar o intervalo de rega do programa",
-					"freq_options": "Selecione ou adicione opções ao intervalo de rega",
+					"freq_options": "Selecione ou adicione opções do intervalo de rega",
 					"controller_monitor": "Monitorizar o sensor binário do controlador",
 					"device_type": "Tipo de controlador"
 				}
@@ -220,70 +220,70 @@
 				}
 			},
 			"advanced": {
-				"title": "Advanced Options",
+				"title": "Opções Avançadas",
 				"description": "",
 				"data": {
-					"start_type":"Start time options",
-					"interlock": "Prevent programs running concurrently",
-					"rain_behaviour": "Rain sensor behaviour",
-					"water_max": "Maximum watering time/volume",
-					"water_step": "Time/volume step",
-					"parallel": "Zone parallel execution"
+					"start_type":"Opções de hora de início",
+					"interlock": "Impedir que os programas sejam executados em simultâneo",
+					"rain_behaviour": "Comportamento do sensor de chuva",
+					"water_max": "Tempo/volume máximo de rega",
+					"water_step": "Passo de Tempo/volume",
+					"parallel": "Execução de zonas em paralelo"
 				}
 			},
 			"update_program": {
-				"title": "Program Data",
-				"description": "Update program",
+				"title": "Informação do programa",
+				"description": "Atualizar o programa",
 				"data": {
-					"program": "Enable program wide frequency",
-					"freq": "Enable program wide frequency",
-					"freq_options": "Select or add frequency options",
-					"controller_monitor": "Monitor controller binary sensor",
-					"device_type": "Controller type"
+					"program": "Ativar a frequência de rega em todo o programa",
+					"freq": "Ativar o intervalo de rega do programa",
+					"freq_options": "Selecione ou adicione opções do intervalo de rega",
+					"controller_monitor": "Monitorizar o sensor binário do controlador",
+					"device_type": "Tipo de controlador"
 				}
 			},
 			"add_zone": {
 				"title": "Zone Configuration",
 				"description": "Add zone",
 				"data": {
-					"zone": "Zone switch",
-					"freq": "Zone frequency replaces program frequency",
-					"eco": "Enable wait and repeat eco feature",
-					"pump": "Pump switch",
-					"flow_sensor": "Flow sensor",
-					"water_adjustment": "Runtime adjustment sensor",
-					"rain_sensor": "Rain binary sensor",
-					"water_source_active": "Water source binary sensor",
-					"order": "Zone run order"
+					"zone": "Comando da zona",
+					"freq": "Trocar o intervalo de rega da zona pelo inetrvalo de rega do programa",
+					"eco": "Ativar o modo Ecológico espera e repetição",
+					"pump": "Comando da bomba",
+					"flow_sensor": "Sensor de fluxo",
+					"water_adjustment": "Sensor de ajuste do tempo de rega",
+					"rain_sensor": "Sensor binário de chuva",
+					"water_source_active": "Sensor binário da fonte de água",
+					"order": "Ordem de execução da zona"
 				}
 			},
 			"update_zone_data": {
 				"title": "Zone Configuration",
 				"description": "Update zone",
 				"data": {
-					"zone": "Zone switch",
-					"freq": "Zone frequency replaces program frequency",
-					"eco": "Enable wait and repeat eco feature",
-					"pump": "Pump switch",
-					"flow_sensor": "Flow sensor",
-					"water_adjustment": "Runtime adjustment sensor",
-					"rain_sensor": "Rain binary sensor",
-					"water_source_active": "Water source binary sensor",
-					"order": "Zone run order"
+					"zone": "Comando da zona",
+					"freq": "Trocar o intervalo de rega da zona pelo inetrvalo de rega do programa",
+					"eco": "Ativar o modo Ecológico espera e repetição",
+					"pump": "Comando da bomba",
+					"flow_sensor": "Sensor de fluxo",
+					"water_adjustment": "Sensor de ajuste do tempo de rega",
+					"rain_sensor": "Sensor binário de chuva",
+					"water_source_active": "Sensor binário da fonte de água",
+					"order": "Ordem de execução da zona"
 				}
 			},
 			"delete_zone": {
-				"title": "Zone Configuration",
+				"title": "Configuração da zona",
 				"description": "",
 				"data": {
-					"zone": "Select zone to delete"
+					"zone": "Selecionar a zona para eliminar"
 				}
 			},
 			"update_zone": {
-				"title": "Zone Configuration",
+				"title": "Configuração da zona",
 				"description": "",
 				"data": {
-					"zone": "Select zone to update"
+					"zone": "Selecionar a zona para atualizar"
 				}
 			}
 		}
