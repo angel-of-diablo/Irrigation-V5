@@ -135,7 +135,7 @@
 				"description": "Configurações da zona",
 				"data": {
 					"zone": "Comando da zona",
-					"freq": "Trocar o intervalo de rega da zona pelo inetrvalo de rega do programa",
+					"freq": "Trocar o intervalo de rega da zona pelo intervalo de rega do programa",
 					"eco": "Ativar o modo Ecológico espera e repetição",
 					"pump": "Comando da bomba",
 					"flow_sensor": "Sensor de fluxo",
@@ -154,10 +154,10 @@
 			},
 			"update_zone_data": {
 				"title": "Configuração da zona",
-				"description": "Atualizar a zona",
+				"description": "Atualizar zona",
 				"data": {
 					"zone": "Comando da zona",
-					"freq": "Trocar o intervalo de rega da zona pelo inetrvalo de rega do programa",
+					"freq": "Trocar o intervalo de rega da zona pelo intervalo de rega do programa",
 					"eco": "Ativar o modo Ecológico espera e repetição",
 					"pump": "Comando da bomba",
 					"flow_sensor": "Sensor de fluxo",
@@ -177,10 +177,10 @@
 			"menu": {
 				"description": "",
 				"menu_options": {
-					"user": "Atualizar o programa",
-					"add_zone": "Adicionar a zona",
-					"update_zone": "Atualizar a zona",
-					"delete_zone": "Eliminar a zona",
+					"user": "Atualizar programa",
+					"add_zone": "Adicionar zona",
+					"update_zone": "Atualizar zona",
+					"delete_zone": "Eliminar zona",
 					"finalise": "Aplicar",
 					"advanced": "Opções Avançadas"
 				}
@@ -211,10 +211,10 @@
 			"user": {
 				"description": "",
 				"menu_options": {
-					"update_program": "Atualizar o programa",
-					"update_zone": "Atualizar a zona",
-					"delete_zone": "Eliminar a zona",
-					"add_zone": "Adicionar a zona",
+					"update_program": "Atualizar programa",
+					"update_zone": "Atualizar zona",
+					"delete_zone": "Eliminar zona",
+					"add_zone": "Adicionar zona",
 					"finalise": "Aplicar",
 					"advanced": "Opções Avançadas"
 				}
@@ -233,7 +233,7 @@
 			},
 			"update_program": {
 				"title": "Informação do programa",
-				"description": "Atualizar o programa",
+				"description": "Atualizar programa",
 				"data": {
 					"program": "Ativar a frequência de rega em todo o programa",
 					"freq": "Ativar o intervalo de rega do programa",
@@ -243,8 +243,8 @@
 				}
 			},
 			"add_zone": {
-				"title": "Zone Configuration",
-				"description": "Add zone",
+				"title": "Configuração da zona",
+				"description": "Adicionar zona",
 				"data": {
 					"zone": "Comando da zona",
 					"freq": "Trocar o intervalo de rega da zona pelo inetrvalo de rega do programa",
