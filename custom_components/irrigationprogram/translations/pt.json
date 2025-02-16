@@ -2,143 +2,143 @@
 	"selector": {
 		"device_type": {
 			"options": {
-				"generic": "Generic",
+				"generic": "Genérico",
 				"rainbird": "RainBird"
 			}
 		},
 		"start_type": {
 			"options": {
-				"selector":"Time selector",
-				"multistart":"Multiple times",
-				"sunrise":"Sunrise with offset",
-				"sunset":"Sunset with offset"
+				"selector":"Seletor de Horários",
+				"multistart":"Diversos Horários",
+				"sunrise":"Nascer do sol com desfasamento",
+				"sunset":"Pôr do sol com desfasamento"
 			}
 		},
 		"rain_behaviour": {
 			"options": {
-				"stop": "Stop the program",
-				"continue": "Allow program to complete"
+				"stop": "Parar o programa",
+				"continue": "Continuar o programa"
 			}
 		}
 	},
 	"entity": {
 		"sensor": {
 			"zone_status": {
-				"name":"Zone status",
+				"name":"Estado da zona",
 				"state": {
-					"off": "Off",
-					"on": "On",
-					"disabled": "Disabled",
-					"pending": "Pending",
-					"eco": "ECO",
-					"program_disabled": "Program disabled",
-					"controller_disabled": "Controller disabled",
-					"unavailable": "Unavailable",
-					"raining": "Raining",
-					"adjusted_off": "Adjusted off",
-					"no_water_source": "No water source detected",
-					"zone_disabled": "Zone disabled",
-					"paused": "Program paused"
+					"off": "Desligado",
+					"on": "Ligado",
+					"disabled": "Desativado",
+					"pending": "Suspenso",
+					"eco": "Ecológico",
+					"program_disabled": "Programa desativado",
+					"controller_disabled": "Controlador desativado",
+					"unavailable": "Indisponível",
+					"raining": "A chuver",
+					"adjusted_off": "Ajustes desligados",
+					"no_water_source": "Nenhuma fonte de água detetada",
+					"zone_disabled": "Zona desativada",
+					"paused": "Programa em espera"
 				}
 			},
 			"zone_next_run":{
-				"name":"Next run"
+				"name":"Próximo arranque"
 			},
 			"zone_last_ran":{
-				"name":"Last ran"
+				"name":"Último arranque"
 			},
 			"remaining_time":{
-				"name":"Remaining time"
+				"name":"Tempo restante"
 			}
 		},
 		"number":{
 			"water":{
-				"name":"Watering time"
+				"name":"Tempo de rega"
 			},
 			"volume":{
-				"name":"Watering volume"
+				"name":"Volume de rega"
 			},
 			"wait":{
-				"name":"Wait time"
+				"name":"Tempo de espera"
 			},
 			"repeat":{
-				"name":"Repeats"
+				"name":"Repetir"
 			},
 			"inter_zone_delay":{
-				"name":"Zone transition"
+				"name":"Transição de zona"
 			},
 			"sunrise_offset":{
-				"name":"Sunrise offset"
+				"name":"Atraso/Avanço do Nascer do Sol"
 			},
 			"sunset_offset":{
-				"name":"Sunset offset"
+				"name":"Atraso/Avanço do Pôr do Sol"
 			}
 		},
 		"time":{
 			"start_time":{
-				"name":"Start time"
+				"name":"Hora de início"
 			}
 		},
 		"text":{
 			"start_times":{
-				"name":"Start times"
+				"name":"Horários de início"
 			}
 		},
 		"switch":{
 			"ignore_sensor":{
-				"name":"Ignore sensors"
+				"name":"Ignorar o sensor"
 			},
 			"enable_program":{
-				"name":"Enable program"
+				"name":"Ativar o programa"
 			},
 			"enable_zone":{
-				"name":"Enable zone"
+				"name":"Ativar a zona"
 			},
 			"config":{
-				"name": "Settings"
+				"name": "Definições"
 			},
 			"zone":{
-				"name": "{zone_name}"
+				"name": "{nome_zona}"
 			},
 			"pause":{
-				"name": "Pause"
+				"name": "Pausa"
 			}
 		},
 		"select":{
 			"frequency":{
-				"name":"Frequency"
+				"name":"Intervalo de rega"
 			}
 		}
 	},
 	"config": {
 		"error": {
-			"zone_defined": "Selected zone switch is already defined in this irrigation program",
-			"mandatory": "Required field not filled in",
-			"zone_required": "At least one zone must be defined",
-			"invalid_days_group": "Frequency options in list must be Mon,Tue,Wed,Thu,Fri,Sat,Sun",
-			"invalid_option": "Frequency option must be numeric or Mon,Tue,Wed,Thu,Fri,Sat,Sun"
+			"zone_defined": "O comando da zona selecionada já está definido neste programa de rega",
+			"mandatory": "Campo obrigatório não preenchido",
+			"zone_required": "Pelo menos uma zona deve ser definida",
+			"invalid_days_group": "Os intervalos de rega na lista devem ser Seg, Ter, Qua, Qui, Sex, Sáb, Dom",
+			"invalid_option": "O intervalo de rega deve ser numérico ou Seg, Ter, Qua, Qui, Sex, Sáb, Dom"
 		},
 		"step": {
 			"user": {
-				"title": "Program data",
-				"description": "Define the program",
+				"title": "Dados do programa",
+				"description": "Defina o programa",
 				"data": {
-					"name": "Name",
-					"freq": "Enable program wide frequency",
-					"freq_options": "Select or add frequency options",
-					"controller_monitor": "Monitor controller binary sensor",
-					"device_type": "Controller type"
+					"name": "Nome",
+					"freq": "Ativar todo o intervalo de rega do programa",
+					"freq_options": "Selecione ou adicione opções ao intervalo de rega",
+					"controller_monitor": "Controlador monitorizado do sensor binário",
+					"device_type": "Tipo de controlador"
 				}
 			},
 			"add_zone": {
-				"title": "Program Zones",
-				"description": "Zone configuration",
+				"title": "Zonas do programa",
+				"description": "Configurações da zona",
 				"data": {
-					"zone": "Zone switch",
-					"freq": "Zone frequency replaces program frequency",
-					"eco": "Enable wait and repeat eco feature",
-					"pump": "Pump switch",
-					"flow_sensor": "Flow sensor",
+					"zone": "Comando da zona",
+					"freq": "O intervalo de rega da zona substitui a intervalo de rega do programa",
+					"eco": "Ativar a espera e repetição do modo Ecológico",
+					"pump": "Comando da bomba",
+					"flow_sensor": "Sensor de fluxo",
 					"water_adjustment": "Runtime adjustment sensor",
 					"rain_sensor": "Rain binary sensor",
 					"water_source_active": "Water source binary sensor",
