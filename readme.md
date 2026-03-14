@@ -310,10 +310,10 @@ or when the program has no zones to run, for example it is raining
 1. fired when the switch is not reporting 'OFF' after being turned off.
 
 ```
-  event\\\_data = {
+  event_data = {
     "action": "error",
     "error": "Switch can not be confirmed as OFF",
-    "device\\\_id": entity\\\_id,
+    "device_id": entity_id,
     "scheduled": True/False,
     "program": name,
   }
@@ -322,10 +322,10 @@ or when the program has no zones to run, for example it is raining
 2. fired when the switch is not reporting ON after being turned on.
 
 ```
-  event\\\_data = {
+  event_data = {
     "action": "error",
     "error": "Switch cannot be confirmed as ON",
-    "device\\\_id": entity\\\_id,
+    "device_id": entity_id,
     "scheduled": True/False,
     "program": name,
   }
@@ -334,10 +334,10 @@ or when the program has no zones to run, for example it is raining
 3. Reported when rain is detected with settings that will stop the program
 
 ```
-  event\\\_data = {
+  event_data = {
     "action": "error",
     "error": "Rain has been detected",
-    "device\\\_id": entity\\\_id,
+    "device_id": entity_id,
     "scheduled": True/False,
     "program": name,
   }
@@ -346,10 +346,10 @@ or when the program has no zones to run, for example it is raining
 4. Fired when the water source is reporting no water is available
 
 ```
-  event\\\_data = {
+  event_data = {
     "action": "error",
     "error": "No water source detected",
-    "device\\\_id": entity\\\_id,
+    "device_id": entity_id,
     "scheduled": True/False,
     "program": name,
   }
@@ -358,13 +358,13 @@ or when the program has no zones to run, for example it is raining
 5. Fired when a solenoid is turned on
 
 ```
-  event\\\_data = {
-    "action": "zone\\\_turned\\\_on",
-    "device\\\_id": solenoid,
+  event_data = {
+    "action": "zone_turned_on",
+    "device_id": solenoid,
     "pump": pump,
     "scheduled": True/False,
     "zone": name,
-    "runtime": remaining\\\_time,
+    "runtime": remaining_time,
     "water": water,
     "wait": wait,
     "repeat": repeat,
@@ -374,9 +374,9 @@ or when the program has no zones to run, for example it is raining
 6. Fired when a solenoid is turned off
 
 ```
-  event\\\_data = {
-    "action": "zone\\\_turned\\\_off",
-    "device\\\_id": solenoid,
+  event_data = {
+    "action": "zone_turned_off",
+    "device_id": solenoid,
     "zone": name,
     "state": state,
   }
@@ -385,10 +385,10 @@ or when the program has no zones to run, for example it is raining
 7. Fired when an unexpected status is reported continuously for the latency check period while the solenoid is on
 
 ```
-  event\\\_data = {
+  event_data = {
     "action": "error",
     "error": "Returned an unexpected state",
-    "device\\\_id": entity\\\_id,
+    "device_id": entity_id,
     "scheduled": True/False,
     "program": name,
     "state":  status
@@ -398,10 +398,10 @@ or when the program has no zones to run, for example it is raining
 8. Fired when the flow sensor continuously reports 0 flow for the latency check period
 
 ```
-  event\\\_data = {
+  event_data = {
     "action": "error",
     "error": "No flow detected",
-    "device\\\_id": entity\\\_id,
+    "device_id": entity_id,
     "scheduled": True/False,
     "program": name,
   }
@@ -410,13 +410,13 @@ or when the program has no zones to run, for example it is raining
 An automation can then use this data to fire on the event you can refine it by adding specific event data.
 
 ``` yaml
-alias: irrigation\\\_program\\\_starts
+alias: irrigation_program_starts
 description: "do something when the program is initiated on schedule, not manually"
 trigger:
   - platform: event
-    event\\\_type: irrigation\\\_event
-    event\\\_data:
-      action: program\\\_turned\\\_on
+    event_type: irrigation_event
+    event_data:
+      action: program_turned_on
       scheduled: true
 action: ---- Put your action here ----
 mode: single
