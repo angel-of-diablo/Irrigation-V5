@@ -246,7 +246,7 @@ You can also create a switch group using HomeAssistant helper functionality. A g
 
 ### Can two programs run at the same time.
 
-You can configure multiple programs to run together, by default if program executions overlap the second program will terminate the active one. This can be disabled in the advance options of the configuration. The setting must be updated on each program instance.
+You can configure multiple programs to run together, by default if program executions overlap the second program queue behind the active one. This can be disabled in the advance options of the configuration. The setting must be updated on each program instance.
 
 ### Time v Volume
 
@@ -278,9 +278,18 @@ The following events are raised by this component and could be used to trigger o
 1. Fired when the program is turned on
 
 ```
-  event\\\_data = {
-      "action": "program\\\_turned\\\_on",
-      "device\\\_id": entity\\\_id,
+  event_data = {
+      "action": "program_turned_on",
+      "device_id": entity_id,
+      "scheduled": True/False,
+      "program": name,
+  }
+```
+or when the program has no zones to run, for example it is raining
+```
+  event_data = {
+      "action": "program_no_zones_ready",
+      "device_id": entity_id,
       "scheduled": True/False,
       "program": name,
   }
@@ -289,9 +298,9 @@ The following events are raised by this component and could be used to trigger o
 2. Fired when the program is turned off
 
 ```
-  event\\\_data = {
-    "action": "program\\\_turned\\\_off",
-    "device\\\_id": entity\\\_id,
+  event_data = {
+    "action": "program_turned_off",
+    "device_id": entity_id,
     "program": name,
   }
 ```
@@ -627,6 +636,13 @@ If you want to delay the start of the program for a number of days after the rai
 
 
 # Release history[🔝](https://github.com/petergridge/Irrigation-V5/blob/main/readme_new.md#Content)
+### V2026.03.01
+* Update to custom card, possible fix to card error on some installs
+* Change interlock behaviour from 'stop running program' to 'queue program'
+* Correct default value issue with slow device on start delay, increase minimum value to 60 seconds
+* Add message providing estimate of how long a slow starting device is.
+* Updated Polish translation file
+* New action. "action": "program_no_zones_ready", new event when the program does not start as no zones ready to run eg rain etc
 
 ### V2025.08.02
 * Add Norwegian translation
