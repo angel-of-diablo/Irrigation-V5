@@ -246,7 +246,7 @@ You can also create a switch group using HomeAssistant helper functionality. A g
 
 ### Can two programs run at the same time.
 
-You can configure multiple programs to run together, by default if program executions overlap the second program queue behind the active one. This can be disabled in the advance options of the configuration. The setting must be updated on each program instance.
+You can configure multiple programs to run together, by default if program executions overlap the second program will queue behind the active one. This can be disabled in the advance options of the configuration. The setting must be updated on each program instance.
 
 ### Time v Volume
 
@@ -552,7 +552,7 @@ Use this to alter the run sequence of the zones. The value increments by 10 as a
 
 This option allows or prevents two programs executing concurrently.
 
-* On - turn off other programs when starting, turn off when another program starts
+* On - Queue behind running program
 * Off - Allow programs to run concurrently
 
 Note this should be set consistently on every program.
