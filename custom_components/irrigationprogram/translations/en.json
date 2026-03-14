@@ -217,7 +217,7 @@
 				"title": "Advanced Options",
 				"data": {
 					"start_type":"Start time options",
-					"interlock": "Prevent programs running concurrently, set on all programs",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Rain sensor behaviour",
 					"min_sec": "Watering time unit",
 					"water_max": "Maximum watering time/volume",
@@ -260,7 +260,7 @@
 				"description": "",
 				"data": {
 					"start_type":"Start time options",
-					"interlock": "Prevent programs running concurrently, set on all programs",
+					"interlock": "Selected, programs queue. Unselected, programs run simultaneously",
 					"rain_behaviour": "Rain sensor behaviour",
 					"min_sec": "Watering time unit",
 					"water_max": "Maximum watering time/volume",

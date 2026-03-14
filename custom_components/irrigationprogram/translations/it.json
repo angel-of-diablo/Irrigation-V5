@@ -217,7 +217,7 @@
 				"title": "Opzioni avanzate",
 				"data": {
 					"sun": "Opzioni per l'orario di inizio",
-					"interlock": "Evita che i programmi vengano eseguiti in parallelo",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Comportamento del sensore pioggia",
 					"min_sec": "Unità di tempo di irrigazione",
 					"water_max": "Tempo/volume massimo di irrigazione",
@@ -260,7 +260,7 @@
 				"description": "",
 				"data": {
 					"sun": "Opzioni per l'orario di inizio",
-					"interlock": "Evita che i programmi vengano eseguiti in parallelo",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Comportamento del sensore pioggia",
 					"min_sec": "Unità di tempo di irrigazione",
 					"water_max": "Tempo/volume massimo di irrigazione",

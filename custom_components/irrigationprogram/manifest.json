@@ -1,12 +1,12 @@
 {
   "domain": "irrigationprogram",
-  "after_dependencies":["switch","sensor"],
+  "name": "Irrigation controller",
   "codeowners": ["@petergridge"],
   "config_flow": true,
   "dependencies": ["lovelace","sun"],
   "documentation": "https://github.com/petergridge/irrigation-v5",
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/petergridge/irrigation-v5/issues",
-  "name": "Irrigation controller",
-  "version": "V2026.03.01"
+  "requirements": [],
+  "version": "V2026.01.01"
 }

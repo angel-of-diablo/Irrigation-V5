@@ -217,7 +217,7 @@
 				"title": "Erweiterte Optionen",
 				"data": {
 					"start_type":"Start Zeit Optionen",
-					"interlock": "Verhindern, dass Programme gleichzeitig laufen",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Regensensorverhalten",
 					"min_sec": "Bewässerungszeit Einheit",
 					"water_max": "Maximale Bewässerungsdauer/-menge",
@@ -260,7 +260,7 @@
 				"description": "",
 				"data": {
 					"start_type":"Startzeit Optionen",
-					"interlock": "Verhindern, dass Programme gleichzeitig laufen",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Regen Sensor Verhalten",
 					"min_sec": "Bewässerungszeit Einheit",
 					"water_max": "Maximale Bewässerungsdauer/-menge",

@@ -1,9 +1,7 @@
 """Switch entity definition."""
 
-import asyncio
 import logging
 
-from homeassistant.components.persistent_notification import async_create
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry as MyConfigEntry
 from homeassistant.const import MATCH_ALL
@@ -13,7 +11,6 @@ from homeassistant.helpers.restore_state import RestoreEntity
 from homeassistant.util import slugify
 
 from . import IrrigationData
-from .const import CONST_START_LATENCY
 from .program import IrrigationProgram
 from .zone import Zone
 
@@ -49,23 +46,6 @@ async def async_setup_entry(
 
     zones = data.zone_data
     for i, zone in enumerate(zones):
-        # check if the switch is ready
-        for _ in range(CONST_START_LATENCY):
-            if not hass.states.async_available(zone.zone):
-                friendly_name = hass.states.get(zone.zone).attributes.get(
-                    "friendly_name"
-                )
-                break
-            await asyncio.sleep(1)
-        else:
-            msg = f"{zone.zone} has not initialised before irrigation program, check your configuration."
-            _LOGGER.error(msg)
-            async_create(
-                hass,
-                message=msg,
-                title="Irrigation Controller",
-                notification_id="irrigation_device_error",
-            )
 
         friendly_name = hass.states.get(zone.zone).attributes.get("friendly_name")
         z_name = zone.name
@@ -95,9 +75,7 @@ async def async_setup_entry(
 
 
 class ProgramConfig(SwitchEntity, RestoreEntity):
-    # _attr_translation_key = "config"
-    # _attr_has_entity_name = True
-    # _unrecorded_attributes = frozenset({MATCH_ALL})
+
 
     def __init__(self, unique_id, name) -> None:
         """Initialize a Irrigation program."""
@@ -219,7 +197,6 @@ class ZoneConfig(SwitchEntity, RestoreEntity):
 
     async def async_toggle(self, **kwargs):
         """Toggle the entity."""
-        # self._state = not self._state
 
         if self._state == "on":
             self._state = "off"
@@ -267,7 +244,6 @@ class IgnoreRainSensor(SwitchEntity, RestoreEntity):
 
     async def async_toggle(self, **kwargs):
         """Toggle the entity."""
-        # self._state = not self._state
 
         if self._state == "on":
             self._state = "off"
@@ -316,7 +292,6 @@ class EnableProgram(SwitchEntity, RestoreEntity):
 
     async def async_toggle(self, **kwargs):
         """Toggle the entity."""
-        # self._state = not self._state
 
         if self._state == "on":
             self._state = "off"
@@ -408,7 +383,6 @@ class EnableRainDelay(SwitchEntity, RestoreEntity):
 
     async def async_toggle(self, **kwargs):
         """Toggle the entity."""
-        # self._state = not self._state
 
         if self._state == "on":
             self._state = "off"

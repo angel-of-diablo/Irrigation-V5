@@ -55,8 +55,14 @@ class IrrigationCard extends HTMLElement {
       // console.log(config.card.entities)
     }
     // console.log("call setConfig");
-    this.lastElementChild.setConfig(config.card);
-    this.lastElementChild.hass = hass;
+
+    if (!this._card) {
+      this._card = document.createElement("hui-entities-card"); // or custom card ??
+      this.appendChild(this._card);
+    }
+    this._card.hass = hass;
+    this._config = config;
+    this._card.setConfig(config.card);
 
     // Functions
 

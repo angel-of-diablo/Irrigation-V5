@@ -217,7 +217,7 @@
 				"title": "Opcje zaawansowane",
 				"data": {
 					"start_type":"Opcje czasu startu",
-					"interlock": "Zapobiegaj jednoczesnemu uruchamianiu programów",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Zachowanie czujnika deszczu",
 					"min_sec": "Jednostka czasu podlewania",
 					"water_max": "Maksymalny czas podlewania/wartość",
@@ -260,7 +260,7 @@
 				"description": "",
 				"data": {
 					"start_type":"Opcje czasu startu",
-					"interlock": "Zapobiegaj jednoczesnemu uruchamianiu programów",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Zachowanie czujnika deszczu",
 					"min_sec": "Jednostka czasu podlewania",
 					"water_max": "Maksymalny czas podlewania/wartość",

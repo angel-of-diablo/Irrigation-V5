@@ -47,6 +47,8 @@ from .const import (
     DOMAIN,
     SWITCH_ID_FORMAT,
 )
+from .globals import PROGRAMS, QUEUEDPROGRAMS
+from .monitor import MonitorClass
 
 CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 PLATFORMS: list[str] = [
@@ -84,61 +86,60 @@ class IrrigationZoneData:
     """Zone data class."""
 
     zone: str  # switch.example, valve.example
-    switch: SwitchEntity  # generated object
-    type: str  # switch|valve
+    switch: SwitchEntity|None  # generated object
+    type: str|None  # switch|valve
     name: str
-    config: SwitchEntity  # generated object
+    config: SwitchEntity|None  # generated object
     eco: bool
     watering_type: str
-    water: NumberEntity  # generated object
-    wait: NumberEntity  # generated object
-    repeat: NumberEntity  # generated object
-    frequency: SelectEntity  # generated object
+    water: NumberEntity|None  # generated object
+    wait: NumberEntity|None  # generated object
+    repeat: NumberEntity|None  # generated object
+    frequency: SelectEntity|None  # generated object
     freq: bool
-    ignore_sensors: SwitchEntity  # generated object
-    enabled: SwitchEntity  # generated
-    status: SensorEntity
-    next_run: SensorEntity
-    last_ran: SensorEntity
-    remaining_time: SensorEntity
-    default_run_time: SensorEntity
+    ignore_sensors: SwitchEntity|None  # generated object
+    enabled: SwitchEntity|None  # generated
+    status: SensorEntity|None
+    next_run: SensorEntity|None
+    last_ran: SensorEntity|None
+    remaining_time: SensorEntity|None
+    default_run_time: SensorEntity|None
     rain_sensor: str  # sensor.example
     adjustment: str  # sensor.example
-    flow_rate: str  # sensor.example
-
+    flow_rate: str|None  # sensor.example
 
 @dataclass
 class IrrigationProgram:
     """Program data class."""
 
     name: str
-    switch: SwitchEntity
-    modified: str
-    pause: SwitchEntity
+    switch: SwitchEntity|None
+    modified: str|None
+    pause: SwitchEntity|None
     rain_delay_on: bool
     pump: str  # switch.example, valve.example
     flow_sensor: str  # sensor.example
     water_source: str  # sensor.example
-    rain_delay: SwitchEntity
-    rain_delay_days: NumberEntity
+    rain_delay: SwitchEntity|None
+    rain_delay_days: NumberEntity|None
     unique_id: str
-    config: SwitchEntity
-    start_time: TimeEntity  # generated
-    remaining_time: SensorEntity  # generated
-    default_run_time: SensorEntity
-    multitime: TextEntity  # generated
-    sunrise_offset: NumberEntity  # generated
-    sunset_offset: NumberEntity  # generated
+    config: SwitchEntity|None
+    start_time: TimeEntity|None  # generated
+    remaining_time: SensorEntity|None  # generated
+    default_run_time: SensorEntity|None
+    multitime: TextEntity|None  # generated
+    sunrise_offset: NumberEntity|None  # generated
+    sunset_offset: NumberEntity|None  # generated
     start_type: str  # selector|multistart|sunrise|sunset
-    frequency: SelectEntity  # generated
-    freq_options: list
-    freq: bool
+    frequency: SelectEntity|None  # generated
+    freq_options: list|None
+    freq: bool|None
     rain_behaviour: str  # stop|continue
-    enabled: SwitchEntity  # generated
-    controller_type: str  # rainbird|generic
-    inter_zone_delay: NumberEntity  # generated
+    enabled: SwitchEntity|None  # generated
+    controller_type: str|None  # rainbird|generic
+    inter_zone_delay: NumberEntity|None  # generated
     interlock: bool
-    zone_count: int
+    zone_count: int|None
     min_sec: str  # minutes|seconds
     water_max: int
     water_step: int
@@ -190,7 +191,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         min_sec=config.get(ATTR_MIN_SEC, "minutes"),
         water_max=config.get("water_max", 30),
         latency=int(config.get(ATTR_LATENCY, 5)),
-        start_latency=int(config.get(ATTR_START_LATENCY, 5)),
+        start_latency=int(max(config.get(ATTR_START_LATENCY), 60)),
         water_step=config.get("water_step", 1),
         zone_delay_max=config.get("zone_delay_max", 120),
         parallel=config.get("parallel", 1),
@@ -246,12 +247,17 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
         # wait for the referenced devices to come online before preceeding to
         # the setup
+
+        # NEW CODE REQUIRED
+        # spawn a monitoring job to determine how long a switch has taken to load
+        MonitorClass(hass, z.zone, program.start_latency)
+
         for _ in range(program.start_latency):
-            if not hass.states.async_available(z.zone):
+            if not hass.states.async_available(z.zone): #name is no longer avaiable object is now loaded
                 break
             await asyncio.sleep(1)
         else:
-            msg = f"{z.zone} has not initialised before the Irrigation Program, check your configuration"
+            msg = f"ERROR {z.zone} has not initialised before the Irrigation Program, this could be a slow registering device, try increasing the 'Wait time from devices that load slowly on startup' setting in the advanced options."
             _LOGGER.error(msg)
             async_create(
                 hass,
@@ -373,24 +379,13 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_stop_programs(hass: HomeAssistant, calling_program):
     """Stop all running programs."""
 
-    async def stop_program():
-        device = SWITCH_ID_FORMAT.format(slugify(data.get(ATTR_NAME, "unknown")))
-        servicedata = {ATTR_ENTITY_ID: device}
-        if hass.states.get(device).state == "on":
-            async_dismiss(hass, "irrigation_teminate")
-            async_create(
-                hass,
-                message=f"Irrigation Program {data.get(ATTR_NAME)} terminated by {calling_program.name}",
-                title="Irrigation Controller",
-                notification_id="irrigation_terminate",
-            )
-            await hass.services.async_call(CONST_SWITCH, SERVICE_TURN_OFF, servicedata)
-
-    # terminate all running programs
-    for n, data in enumerate(hass.data[DOMAIN].values()):
-        if data.get(ATTR_NAME) == calling_program.name:
-            continue
-        await stop_program()
+    # Instead of terminating the program queue it
+    for program in PROGRAMS:
+        if program.name == calling_program.name:
+            if len(QUEUEDPROGRAMS) > 0:
+                await asyncio.sleep(0)
+                await program.pause_switch.async_turn_on()
+            QUEUEDPROGRAMS.append(program)
 
 
 async def async_setup(hass: HomeAssistant, config):

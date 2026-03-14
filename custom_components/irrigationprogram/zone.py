@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import logging
 import math
 
-from homeassistant.components.number import NumberEntity
+#from homeassistant.components.number import NumberEntity
 from homeassistant.components.persistent_notification import async_create, async_dismiss
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.components.switch import SwitchEntity
@@ -201,7 +201,7 @@ class Zone(SwitchEntity, RestoreEntity):
         return "time"
 
     @property
-    def water(self) -> NumberEntity:
+    def water(self) -> int:
         """Water entity number."""
         # allow seconds alongside minutes
         if self.watering_type == "volume":
@@ -215,7 +215,7 @@ class Zone(SwitchEntity, RestoreEntity):
         return int(self._zonedata.water.value)
 
     @property
-    def wait(self) -> NumberEntity:
+    def wait(self) -> int:
         """Wait entity number."""
         if self._zonedata.wait:
             if self.measurement == "seconds":
@@ -225,7 +225,7 @@ class Zone(SwitchEntity, RestoreEntity):
         return 0
 
     @property
-    def repeat(self) -> NumberEntity:
+    def repeat(self) -> int:
         """Repeat entity number."""
         if self._zonedata.repeat:
             return int(self._zonedata.repeat.value)
@@ -621,6 +621,10 @@ class Zone(SwitchEntity, RestoreEntity):
         if check_state is None:
             status = CONST_UNAVAILABLE
 
+        # Clear the next run sensor when the program is not enabled to run
+        if status in (CONST_RAINING, CONST_RAINING_STOP, CONST_ADJUSTED_OFF,CONST_NO_WATER_SOURCE,CONST_ZONE_DISABLED,CONST_PROGRAM_DISABLED):
+            await self.next_run.set_value(None)
+
         return status
 
     def clean_up_string(self, data) -> list:
@@ -924,6 +928,7 @@ class Zone(SwitchEntity, RestoreEntity):
                 "wait": self.wait,
                 "repeat": self.repeat,
             }
+
             self.hass.bus.async_fire("irrigation_event", event_data)
 
     async def async_solenoid_turn_off(self):
@@ -948,8 +953,9 @@ class Zone(SwitchEntity, RestoreEntity):
         state = CONST_OFF
         if self._status == CONST_ECO:
             state = CONST_ECO
-        else:
-            state = CONST_ABORTED
+        # else:
+        #     state = CONST_ABORTED
+
         event_data = {
             "action": "zone_turned_off",
             "device_id": self.solenoid,
@@ -1186,7 +1192,7 @@ class Zone(SwitchEntity, RestoreEntity):
         # End of repeat loop
         self._scheduled = False
 
-        # update last ran only on successful commpletion
+        # update last ran only on successful completion
         if not self._aborted:
             await self.last_ran.set_state(last_ran)
         await self.remaining_time.set_value(0)

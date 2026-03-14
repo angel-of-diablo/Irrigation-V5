@@ -637,9 +637,9 @@ class IrrigationFlowHandler(config_entries.ConfigFlow):
                 vol.Optional(
                     ATTR_START_LATENCY,
                     description={
-                        "suggested_value": default_input.get(ATTR_START_LATENCY, 30)
+                        "suggested_value": default_input.get(ATTR_START_LATENCY, 60)
                     },
-                ): sel.NumberSelector({"min": 5, "max": 60, "mode": "box"}),
+                ): sel.NumberSelector({"min": 60, "max": 300, "mode": "box"}),
                 vol.Optional(
                     ATTR_PARALLEL,
                     description={
@@ -896,9 +896,9 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 vol.Optional(
                     ATTR_START_LATENCY,
                     description={
-                        "suggested_value": default_input.get(ATTR_START_LATENCY, 30)
+                        "suggested_value": default_input.get(ATTR_START_LATENCY, 60)
                     },
-                ): sel.NumberSelector({"min": 5, "max": 60, "mode": "box"}),
+                ): sel.NumberSelector({"min": 60, "max": 300, "mode": "box"}),
                 vol.Optional(
                     ATTR_PARALLEL,
                     description={

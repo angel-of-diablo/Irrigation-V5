@@ -217,7 +217,7 @@
 				"title": "Gevanceerde opties",
 				"data": {
 					"start_type":"Start tijd opties",
-					"interlock": "Voorkom dat programmas nu starten",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Regen sensor gedrag",
 					"min_sec": "Watering time unit",
 					"water_max": "Maximale water tijd/volume",
@@ -260,7 +260,7 @@
 				"description": "",
 				"data": {
 					"start_type":"Start tijd opties",
-					"interlock": "Voorkom dat programma's gelijktijdig worden uitgevoerd",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Regen sensor gedrag",
 					"min_sec": "Watering time unit",
 					"water_max": "Maximale water tijd/volume",

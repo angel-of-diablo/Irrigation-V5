@@ -38,6 +38,7 @@ from .const import (
     CONST_PENDING,
     TIME_STR_FORMAT,
 )
+from .globals import PROGRAMS, QUEUEDPROGRAMS
 from .pump import PumpClass
 
 _LOGGER = logging.getLogger(__name__)
@@ -86,6 +87,8 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
         self._extra_attrs = {}
 
         self._localtimezone = ZoneInfo(self._hass.config.time_zone)
+
+        PROGRAMS.append(self)
 
     def generate_card(self):
         """Create card config yaml."""
@@ -328,7 +331,7 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
         return slugify(f"{part_a}_{part_b}")
 
     @callback
-    def point_in_time_listener(self, time_date):
+    async def point_in_time_listener(self, time_date):
         """Get the latest time and check if irrigation should start."""
         self._unsub_point_in_time = async_track_point_in_utc_time(
             self._hass, self.point_in_time_listener, self.get_next_interval()
@@ -344,6 +347,7 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
             .strip("[]'")
             .split(",")
         )
+
         if (
             self._state is False
             and time in string_times
@@ -634,6 +638,12 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
         return self._program.interlock
 
     @property
+    def pause_switch(self):
+        """Zone  entity value."""
+        return self._program.pause
+
+
+    @property
     def start_time_value(self):
         """Start time entity value."""
         value = None
@@ -861,7 +871,14 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
             }
             self._hass.bus.async_fire("irrigation_event", event_data)
         else:
-            # No zones to run
+           # No zones to run
+            event_data = {
+                "action": "program_no_zones_ready",
+                "device_id": self.entity_id,
+                "scheduled": self._scheduled,
+                "program": self.name,
+            }
+            self._hass.bus.async_fire("irrigation_event", event_data)
             return
 
         self._state = True
@@ -892,6 +909,7 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
 
     async def async_turn_off(self, **kwargs):
         """Stop the switch/program."""
+
         self._stop = True
         if self._pumps:
             event_data = {
@@ -908,9 +926,18 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
         self._run_zones = []
         self._program_remaining = 0
         for zone in self._zones:
-            await zone.switch.async_turn_off()
-            await asyncio.sleep(0)
+            if zone.switch.state == CONST_ON:
+                await zone.switch.async_turn_off()
+                await asyncio.sleep(0)
         self._state = False
         self._finished = True
-
         self.async_schedule_update_ha_state()
+
+        #check the interlock queue and unpause the next item
+        for n, x in enumerate(QUEUEDPROGRAMS):
+            if x.name == self.name:
+                QUEUEDPROGRAMS.pop(n)
+        if len(QUEUEDPROGRAMS) > 0:
+            await QUEUEDPROGRAMS[0].pause_switch.async_turn_off()
+
+

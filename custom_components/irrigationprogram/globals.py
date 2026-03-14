@@ -1,0 +1,3 @@
+"""Global Variable."""
+PROGRAMS = []
+QUEUEDPROGRAMS = []

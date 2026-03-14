@@ -217,7 +217,7 @@
 				"title": "Options Avancées",
 				"data": {
 					"sun":"Options d'horaire de démarrage",
-					"interlock": "Empêcher les programmes de fonctionner en même temps",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Comportement du capteur de pluie",
 					"min_sec": "Watering time unit",
 					"water_max": "Temps/Volume maximum d'arrosage",
@@ -260,7 +260,7 @@
 				"description": "",
 				"data": {
 					"sun":"Options d'horaire de démarrage",
-					"interlock": "Empêcher les programmes de fonctionner en même temps",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Comportement du capteur de pluie",
 					"min_sec": "Unité d'arrosage",
 					"water_max": "Temps/Volume maximum d'arrosage",

@@ -217,7 +217,7 @@
 				"title": "Avanserte innstillinger",
 				"data": {
 					"start_type":"Alternativer for starttid",
-					"interlock": "Unngå parallell kjøring av programmer",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Regnsensorens oppførsel",
 					"min_sec": "Tidsenhet for vanning",
 					"water_max": "Maksimal vanningstid/-mengde",
@@ -260,7 +260,7 @@
 				"description": "",
 				"data": {
 					"start_type":"Alternativer for starttid",
-					"interlock": "Unngå parallell kjøring av programmer",
+					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
 					"rain_behaviour": "Regnsensorens oppførsel",
 					"min_sec": "Tidsenhet for vanning",
 					"water_max": "Maksimal vanningstid/-mengde",
