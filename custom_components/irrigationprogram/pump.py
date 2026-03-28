@@ -12,7 +12,6 @@ from homeassistant.const import (
 )
 from homeassistant.core import HomeAssistant
 
-# from homeassistant.helpers.event import async_track_state_change_event
 from .const import CONST_OFF_DELAY, CONST_ON, CONST_OPEN, CONST_SWITCH
 
 _LOGGER = logging.getLogger(__name__)
@@ -37,7 +36,7 @@ class PumpClass:
     async def handle_event(self, event):
         """Inspect irrigation events."""
 
-        if self._program.entity_id != event.data.get("program"):
+        if self._program and self._program.entity_id != event.data.get("program"):
             return
 
         if event.data.get("action") == "turn_on_pump":
@@ -52,7 +51,8 @@ class PumpClass:
             # Now need to determine if other zones are running that
             # need the pump to remain on.
             for zone in self._zones:
-                if self.hass.states.get(zone.zone).state in (
+                state = self.hass.states.get(zone.zone)
+                if state and state.state in (
                     CONST_ON,
                     CONST_OPEN,
                 ) and zone.zone != event.data.get("device_id"):
@@ -70,15 +70,15 @@ class PumpClass:
         """Return pump."""
         return self._pump
 
-    async def async_cancel(self):
-        """Stop monitoring."""
-        self._cancel()
-        self._cancel = None
+    # async def async_cancel(self):
+    #     """Stop monitoring."""
+    #     self._cancel()
+    #     self._cancel = None
 
     async def async_stop(self):
         """Turn off pump."""
-        state = self.hass.states.get(self._pump).state
-        if state == "on":
+        state = self.hass.states.get(self._pump)
+        if state and state.state == "on":
             await self.hass.services.async_call(
                 CONST_SWITCH, SERVICE_TURN_OFF, {ATTR_ENTITY_ID: self._pump}
             )
@@ -89,8 +89,8 @@ class PumpClass:
 
     async def async_start(self):
         """Turn on the pump."""
-        state = self.hass.states.get(self._pump).state
-        if state == "off":
+        state = self.hass.states.get(self._pump)
+        if state and state.state == "off":
             await self.hass.services.async_call(
                 CONST_SWITCH, SERVICE_TURN_ON, {ATTR_ENTITY_ID: self._pump}
             )

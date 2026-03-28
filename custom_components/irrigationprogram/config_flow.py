@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 from datetime import datetime
 import logging
 import uuid
@@ -81,7 +82,7 @@ class IrrigationFlowHandler(config_entries.ConfigFlow):
         self._data["unique_id"] = self._unique_id
         self._data[ATTR_ZONES] = []
         self._exclude = []
-        self.zoneselect = None
+        self.zoneselect = {}
 
     async def async_step_user(self, user_input=None):
         """Initiate a flow via the user interface."""
@@ -103,7 +104,7 @@ class IrrigationFlowHandler(config_entries.ConfigFlow):
             if not user_input.get("freq_options", None):
                 errors["freq_options"] = "mandatory"
             else:
-                for option in user_input.get("freq_options"):
+                for option in user_input.get("freq_options","1"):
                     if option.split(".")[0] == "sensor":
                         # now validate the sensor exists
                         if self.hass.states.async_available(option):
@@ -145,8 +146,6 @@ class IrrigationFlowHandler(config_entries.ConfigFlow):
             if not errors:
                 # Input is valid, set data.
                 self._data[ATTR_PUMP] = None
-                self._data[ATTR_FLOW_SENSOR] = None
-                self._data[ATTR_WATER_SOURCE] = None
                 for attr in user_input:
                     self._data[attr] = user_input[attr]
                 self._data[ATTR_START_TYPE] = self._data.get(
@@ -251,6 +250,7 @@ class IrrigationFlowHandler(config_entries.ConfigFlow):
         """Add a zone step."""
         errors = {}
         if user_input is not None:
+
             if user_input.get(ATTR_ZONE) is None:
                 errors[ATTR_ZONE] = "mandatory"
 
@@ -371,10 +371,12 @@ class IrrigationFlowHandler(config_entries.ConfigFlow):
         optionslist = []
         for zone in zones:
             try:
-                optionslist.append(
-                    {"label": self.hass.states.get(zone).name, "value": zone}
-                )
-            except:
+                z = self.hass.states.get(zone)
+                if z:
+                    optionslist.append(
+                        {"label": z.name, "value": zone}
+                    )
+            except AttributeError:
                 optionslist.append({"label": zone + " offline!", "value": zone})
 
         list_schema = vol.Schema(
@@ -411,9 +413,11 @@ class IrrigationFlowHandler(config_entries.ConfigFlow):
         optionslist = []
         for zone in zones:
             try:
-                optionslist.append(
-                    {"label": self.hass.states.get(zone).name, "value": zone}
-                )
+                z = self.hass.states.get(zone)
+                if z:
+                    optionslist.append(
+                        {"label": z.name, "value": zone}
+                    )
             except AttributeError:
                 optionslist.append({"label": zone + " offline!", "value": zone})
 
@@ -437,7 +441,8 @@ class IrrigationFlowHandler(config_entries.ConfigFlow):
         newdata = {}
         newdata.update(self._data)
         # get the zone position
-        for count, zone in enumerate(newdata.get(ATTR_ZONES)):
+
+        for count, zone in enumerate(newdata.get(ATTR_ZONES,[])):
             if zone.get(ATTR_ZONE) == self.zoneselect.get(ATTR_ZONE):
                 this_zone = zone
                 zone_pos = count
@@ -452,7 +457,9 @@ class IrrigationFlowHandler(config_entries.ConfigFlow):
                 for attr in user_input:
                     zone_data[attr] = user_input[attr]
                 # update with the new data into the list of zones
-                newdata.get(ATTR_ZONES)[zone_pos] = zone_data
+                zones = newdata.get(ATTR_ZONES)
+                if zones:
+                    zones[zone_pos] = zone_data
                 self._data = newdata
                 return await self.async_step_update_zone()
 
@@ -695,7 +702,7 @@ class IrrigationFlowHandler(config_entries.ConfigFlow):
         updated = datetime.now(localtimezone)
         self._data.update({"updated": updated})
         # User is done adding, create the config entry.
-        return self.async_create_entry(title=self._data.get(CONF_NAME), data=self._data)
+        return self.async_create_entry(title=self._data.get(CONF_NAME,""), data=self._data)
 
     # --- Options Flow ----------------------------------------------
     @staticmethod
@@ -713,12 +720,13 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         """Initialise option flow."""
         self._name = config_entry.data.get(CONF_NAME)
-        self.zoneselect = None
+        self.zoneselect = {}
         self._uid = config_entry.entry_id
         if config_entry.options == {}:
             self._data = config_entry.data
         else:
             self._data = config_entry.options
+
         self._updated = False
         self._exclude = []
         self._remove = []
@@ -754,6 +762,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         newdata = {}
         newdata.update(self._data)
 
+        sortedzones:list = []
         sortedzones = bubble_sort(self._data.get(ATTR_ZONES))
         for zone in self._delete:
             for zonenumber, szone in enumerate(sortedzones):
@@ -946,7 +955,14 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         newdata.update(self._data)
 
         if user_input is not None:
+            with contextlib.suppress(KeyError):
+                newdata.pop(ATTR_FLOW_SENSOR)
+            with contextlib.suppress(KeyError):
+                newdata.pop(ATTR_WATER_SOURCE)
+            with contextlib.suppress(KeyError):
+                newdata.pop(ATTR_PUMP)
             newdata.update(user_input)
+
             cleanoptions = []
 
             # check if it is a sensor being provide
@@ -997,6 +1013,20 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 self._updated = True
                 if user_input["freq"] is False:
                     await self.get_er("select", slugify(f"{self._uid}_frequency"))
+                zones = newdata.get('zones',{})
+                #set watering type for the zones
+                if newdata.get(ATTR_FLOW_SENSOR):
+                    for zone in zones:
+                        try:
+                            #watering type already set
+                            zone['watering_type']
+                        except KeyError:
+                            #watering type not set
+                            zone['watering_type'] = 'volume'
+                else:
+                    for zone in zones:
+                        with contextlib.suppress(KeyError):
+                            zone.pop('watering_type')
 
                 # Return the form of the next step.
                 self._data = newdata
@@ -1126,9 +1156,11 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         optionslist = []
         for zone in zones:
             try:
-                optionslist.append(
-                    {"label": self.hass.states.get(zone).name, "value": zone}
-                )
+                state = self.hass.states.get(zone)
+                if state:
+                    optionslist.append(
+                        {"label": state.name, "value": zone}
+                    )
             except AttributeError:
                 optionslist.append({"label": zone + " offline!", "value": zone})
         list_schema = vol.Schema(
@@ -1166,9 +1198,11 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         optionslist = []
         for zone in zones:
             try:
-                optionslist.append(
-                    {"label": self.hass.states.get(zone).name, "value": zone}
-                )
+                state = self.hass.states.get(zone)
+                if state:
+                    optionslist.append(
+                        {"label": state.name, "value": zone}
+                    )
             except AttributeError:
                 optionslist.append({"label": zone + " offline!", "value": zone})
 
@@ -1191,8 +1225,9 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         errors = {}
         newdata = {}
         newdata.update(self._data)
-        # get the zone position
-        for count, zone in enumerate(newdata.get(ATTR_ZONES)):
+        # get the zone position,[]
+        zones = newdata.get(ATTR_ZONES,[])
+        for count, zone in enumerate(zones):
             if zone.get(ATTR_ZONE) == self.zoneselect.get(ATTR_ZONE):
                 this_zone = zone
                 zone_pos = count
@@ -1207,9 +1242,15 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 zone_data = {}
                 for attr in user_input:
                     zone_data[attr] = user_input[attr]
+                    if not self._data.get(ATTR_FLOW_SENSOR, None):
+                        with contextlib.suppress(KeyError):
+                            zone_data.pop(ATTR_WATER_TYPE)
                 # update with the new data into the list of zones
-                newdata.get(ATTR_ZONES)[zone_pos] = zone_data
+                zones = newdata.get(ATTR_ZONES)
+                if zones:
+                    zones[zone_pos] = zone_data
                 self._data = newdata
+
                 # remove the wait and repeate if ECO is disabled
                 friendlyname = user_input[ATTR_ZONE].split(".")[1]
                 if user_input["eco"] is False:
@@ -1342,7 +1383,9 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         else:
             default_input = user_input
 
-        default_order = (len(newdata.get(ATTR_ZONES)) + 1) * 10  # increment by 10
+        zones = newdata.get(ATTR_ZONES)
+        if zones:
+            default_order = (len(zones) + 1) * 10  # increment by 10
 
         schema = vol.Schema(
             {

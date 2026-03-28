@@ -1,6 +1,7 @@
+"""Number objects."""
 import logging
 
-from homeassistant.components.number import NumberDeviceClass, RestoreNumber
+from homeassistant.components.number import NumberDeviceClass, NumberMode, RestoreNumber
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import MATCH_ALL
 from homeassistant.core import HomeAssistant
@@ -106,7 +107,7 @@ async def async_setup_entry(
 class InputNumberProgram(RestoreNumber):
     _attr_has_entity_name = True
     _attr_editable = True
-    _attr_mode = "slider"
+    _attr_mode = NumberMode.SLIDER
     _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(
@@ -125,7 +126,7 @@ class InputNumberProgram(RestoreNumber):
         last_state = await self.async_get_last_number_data()
 
         if last_state is not None:
-            await self.async_set_native_value(last_state.native_value)
+            await self.async_set_native_value(last_state.native_value or 0)
         else:
             await self.async_set_native_value(0)
 
@@ -141,7 +142,7 @@ class InputNumberProgram(RestoreNumber):
 class Water(RestoreNumber):
     _attr_has_entity_name = True
     _attr_editable = True
-    _attr_mode = "slider"
+    _attr_mode = NumberMode.SLIDER
 
     _unrecorded_attributes = frozenset({MATCH_ALL})
 
@@ -175,7 +176,7 @@ class Water(RestoreNumber):
     async def async_added_to_hass(self):
         last_state = await self.async_get_last_number_data()
         if last_state is not None:
-            await self.async_set_native_value(last_state.native_value)
+            await self.async_set_native_value(last_state.native_value or 1)
         else:
             await self.async_set_native_value(1)
 
@@ -191,7 +192,7 @@ class Water(RestoreNumber):
 class Wait(RestoreNumber):
     _attr_has_entity_name = True
     _attr_editable = True
-    _attr_mode = "slider"
+    _attr_mode = NumberMode.SLIDER
     _attr_native_min_value = 1
     _attr_native_step = 1
     _attr_translation_key = "wait"
@@ -211,13 +212,13 @@ class Wait(RestoreNumber):
     async def async_added_to_hass(self):
         last_state = await self.async_get_last_number_data()
         if last_state is not None:
-            await self.async_set_native_value(last_state.native_value)
+            await self.async_set_native_value(last_state.native_value or 1)
         else:
             await self.async_set_native_value(1)
 
     @property
-    def native_value(self):
-        return self._attr_native_value
+    def native_value(self)-> float:
+        return self._attr_native_value or 1
 
     async def async_set_native_value(self, value):
         self._attr_native_value = value
@@ -227,7 +228,7 @@ class Wait(RestoreNumber):
 class Repeat(RestoreNumber):
     _attr_has_entity_name = True
     _attr_editable = True
-    _attr_mode = "slider"
+    _attr_mode = NumberMode.SLIDER
     _attr_native_min_value = 1
     _attr_native_max_value = 10
     _attr_native_step = 1
@@ -242,7 +243,7 @@ class Repeat(RestoreNumber):
     async def async_added_to_hass(self):
         last_state = await self.async_get_last_number_data()
         if last_state is not None:
-            await self.async_set_native_value(last_state.native_value)
+            await self.async_set_native_value(last_state.native_value or 1)
         else:
             await self.async_set_native_value(1)
 

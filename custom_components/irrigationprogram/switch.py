@@ -46,10 +46,11 @@ async def async_setup_entry(
 
     zones = data.zone_data
     for i, zone in enumerate(zones):
-
-        friendly_name = hass.states.get(zone.zone).attributes.get("friendly_name")
+        zone_entity = hass.states.get(zone.zone)
+        if zone_entity:
+            friendly_name = zone_entity.attributes.get("friendly_name")
         z_name = zone.name
-        if zone.rain_sensor or zone.adjustment or data.program.water_source:
+        if zone.rain_sensor or zone.adjustment:
             switch = IgnoreRainSensor(unique_id, name, z_name)
             switches.append(switch)
             config_entry.runtime_data.zone_data[i].ignore_sensors = switch
@@ -75,7 +76,7 @@ async def async_setup_entry(
 
 
 class ProgramConfig(SwitchEntity, RestoreEntity):
-
+    """Program Class."""
 
     def __init__(self, unique_id, name) -> None:
         """Initialize a Irrigation program."""
@@ -125,6 +126,7 @@ class ProgramConfig(SwitchEntity, RestoreEntity):
 
 
 class ProgramPause(SwitchEntity, RestoreEntity):
+    """Pause Program."""
     _attr_has_entity_name = True
     _attr_translation_key = "pause"
     _unrecorded_attributes = frozenset({MATCH_ALL})
@@ -135,6 +137,7 @@ class ProgramPause(SwitchEntity, RestoreEntity):
         self._attr_attribution = f"Irrigation Controller: {name}"
         self._state = "off"
         self._unique_id = unique_id
+        self._program_name = name
 
     async def async_added_to_hass(self):
         """HA has started."""
@@ -149,8 +152,6 @@ class ProgramPause(SwitchEntity, RestoreEntity):
 
     async def async_toggle(self, **kwargs):
         """Toggle the entity."""
-        # self._state = not self._state
-
         if self._state == "on":
             self._state = "off"
         else:
@@ -169,6 +170,7 @@ class ProgramPause(SwitchEntity, RestoreEntity):
 
 
 class ZoneConfig(SwitchEntity, RestoreEntity):
+    """."""
     _attr_has_entity_name = True
     _attr_translation_key = "config"
     _unrecorded_attributes = frozenset({MATCH_ALL})
@@ -216,6 +218,7 @@ class ZoneConfig(SwitchEntity, RestoreEntity):
 
 
 class IgnoreRainSensor(SwitchEntity, RestoreEntity):
+    """."""
     _attr_has_entity_name = True
     _attr_translation_key = "ignore_sensor"
     _unrecorded_attributes = frozenset({MATCH_ALL})
@@ -263,6 +266,7 @@ class IgnoreRainSensor(SwitchEntity, RestoreEntity):
 
 
 class EnableProgram(SwitchEntity, RestoreEntity):
+    """."""
     _attr_has_entity_name = True
     _attr_translation_key = "enable_program"
     _unrecorded_attributes = frozenset({MATCH_ALL})
@@ -311,6 +315,7 @@ class EnableProgram(SwitchEntity, RestoreEntity):
 
 
 class EnableZone(SwitchEntity, RestoreEntity):
+    """."""
     _attr_has_entity_name = True
     _attr_translation_key = "enable_zone"
     _unrecorded_attributes = frozenset({MATCH_ALL})
@@ -354,6 +359,7 @@ class EnableZone(SwitchEntity, RestoreEntity):
 
 
 class EnableRainDelay(SwitchEntity, RestoreEntity):
+    """."""
     _attr_has_entity_name = True
     _attr_translation_key = "enable_rain_delay"
     _unrecorded_attributes = frozenset({MATCH_ALL})

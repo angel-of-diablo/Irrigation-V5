@@ -76,7 +76,7 @@ async def init_resource(hass: HomeAssistant, url: str, ver: str) -> bool:
 
 
 # Utilities
-def bubble_sort(zones):
+def bubble_sort(zones)->list:
     """Sort an array of data."""
     # Outer loop to iterate through the list n times
     for n in range(len(zones) - 1, 0, -1):

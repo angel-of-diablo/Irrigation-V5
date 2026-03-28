@@ -13,7 +13,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import MATCH_ALL
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-from homeassistant.util import slugify
+from homeassistant.util import dt as dt_util, slugify
 
 from . import IrrigationData
 from .const import (
@@ -32,6 +32,7 @@ from .const import (
     CONST_UNAVAILABLE,
     CONST_ZONE_DISABLED,
 )
+from .globals import PROGRAMS, ZONES
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -99,8 +100,20 @@ class ZoneStatus(SensorEntity):
         self._state = "off"
         self._uuid = slugify(f"{unique_id}_{zone}_status")
         self._attr_attribution = f"Irrigation Controller: {pname}, {zone}"
+        self._pname = pname
+        self._zname = zone
 
-    async def set_value(self, status="off"):
+    async def async_update(self):
+        """Triggered on update freq."""
+        #get the value from the program/zone
+        zonename = self._pname+'.'+self._zname
+        x = ZONES.get(zonename)
+         # Get the property object from the class
+        if x:
+            value = x.status_sensor_value
+        await self.set_value(value)
+
+    async def set_value(self, status=CONST_OFF):
         """Set the runtime state value."""
         self._state = status
         self.async_schedule_update_ha_state()
@@ -152,14 +165,27 @@ class ZoneNextRun(SensorEntity):
     _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(self, hass: HomeAssistant, pname, zone, unique_id) -> None:
-        self._state = None
+        """Init."""
+        self._state:datetime = dt_util.as_local(dt_util.now())
         self._uuid = slugify(f"{unique_id}_{zone}_next_run")
         self._attr_attribution = f"Irrigation Controller: {pname}, {zone}"
+        self._pname = pname
+        self._zname = zone
 
-    async def set_value(self, status=None):
-        """Set the runtime state value."""
-        self._state = status
-        self.async_schedule_update_ha_state()
+    async def async_update(self):
+        """Triggered on update freq."""
+        #get the value from the program/zone
+        zonename = self._pname+'.'+self._zname
+        x = ZONES.get(zonename)
+         # Get the property object from the class
+        if x and type(x.next_run_value) is datetime:
+            self._state = x.next_run_value
+
+
+    # async def set_value(self, status):
+    #     """Set the runtime state value."""
+    #     self._state = status
+    #     self.async_schedule_update_ha_state()
 
     @property
     def unique_id(self):
@@ -167,7 +193,7 @@ class ZoneNextRun(SensorEntity):
         return self._uuid
 
     @property
-    def native_value(self):
+    def native_value(self) -> datetime:
         """Return the state."""
         return self._state
 
@@ -182,6 +208,7 @@ class ZoneLastRan(RestoreSensor):
     _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(self, hass: HomeAssistant, pname, zone, unique_id) -> None:
+        """Init."""
         self._state = None
         self._uuid = slugify(f"{unique_id}_{zone}_last_ran")
         self._localtimezone = ZoneInfo(hass.config.time_zone)
@@ -219,9 +246,22 @@ class ZoneRemainingTime(SensorEntity):
     _attr_device_class = SensorDeviceClass.DATE
 
     def __init__(self, hass: HomeAssistant, pname, zone, unique_id) -> None:
-        self._state: datetime = time(hour=0, minute=0, second=0)
+        """Init."""
+        self._state: time = time(hour=0, minute=0, second=0)
         self._uuid = slugify(f"{unique_id}_{zone}_remaining_time")
         self._attr_attribution = f"Irrigation Controller: {pname}, {zone}"
+        self._pname = pname
+        self._zname = zone
+
+    async def async_update(self):
+        """Triggered on update freq."""
+        #get the value from the program/zone
+        zonename = self._pname+'.'+self._zname
+        x = ZONES.get(zonename)
+         # Get the property object from the class
+        if x:
+            value = x.remaining_time_value
+        await self.set_value(value)
 
     async def set_value(self, value):
         """Set the remaining time state value."""
@@ -261,11 +301,25 @@ class ZoneDefaultRunTime(SensorEntity):
     _attr_device_class = SensorDeviceClass.DATE
 
     def __init__(self, hass: HomeAssistant, pname, zone, unique_id) -> None:
-        self._state: datetime = time(hour=0, minute=0, second=0)
+        """Init."""
+        self._state: time = time(hour=0, minute=0, second=0)
         self._uuid = slugify(f"{unique_id}_{zone}_default_run_time")
         self._attr_attribution = f"Irrigation Controller: {pname}, {zone}"
+        self._pname = pname
+        self._zname = zone
 
-    def set_value(self, value):
+    async def async_update(self):
+        """Triggered on update freq."""
+        #get the value from the program/zone
+        zonename = self._pname+'.'+self._zname
+        x = ZONES.get(zonename)
+         # Get the property object from the class
+        if x:
+            value = x.default_run_time
+        await self.set_value(value)
+
+
+    async def set_value(self, value):
         """Set the remaining time state value."""
         # convert seconds to datetime
         minute, second = divmod(value, 60)
@@ -304,9 +358,20 @@ class RemainingTime(SensorEntity):
     _attr_device_class = SensorDeviceClass.DATE
 
     def __init__(self, hass: HomeAssistant, pname, unique_id) -> None:
-        self._state: datetime = time(hour=0, minute=0, second=0)
+        """Init."""
+        self._state: time = time(hour=0, minute=0, second=0)
         self._uuid = slugify(f"{unique_id}_remaining_time")
         self._attr_attribution = f"Irrigation Controller: {pname}"
+        self._pname = pname
+
+    async def async_update(self):
+        """Triggered on update freq."""
+        #get the value from the program/zone
+        x = PROGRAMS.get(self._pname)
+         # Get the property object from the class
+        if x:
+            value = x.remaining_time_value
+        await self.set_value(value)
 
     async def set_value(self, value):
         """Set the runtime state value."""
@@ -347,11 +412,23 @@ class DefaultRunTime(SensorEntity):
     _attr_device_class = SensorDeviceClass.DATE
 
     def __init__(self, hass: HomeAssistant, pname, unique_id) -> None:
-        self._state: datetime = time(hour=0, minute=0, second=0)
+        """Init."""
+        self._state: time = time(hour=0, minute=0, second=0)
         self._uuid = slugify(f"{unique_id}_default_run_time")
         self._attr_attribution = f"Irrigation Controller: {pname}"
+        self._pname = pname
 
-    def set_value(self, value):
+    async def async_update(self):
+        """Triggered on update freq."""
+        #get the value from the program/zone
+        x = PROGRAMS.get(self._pname)
+         # Get the property object from the class
+        if x:
+            value = x.default_run_time_value
+        await self.set_value(value)
+
+
+    async def set_value(self, value):
         """Set the runtime state value."""
         # convert seconds to datetime
         minute, second = divmod(value, 60)
