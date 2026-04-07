@@ -80,6 +80,7 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
         self._unsub_start = None
         self._unsub_monitor = None
         self._unsub_pause = None
+        self._unsub_pause_water = None
 
         self._pumps = []
         self._run_zones = []  # list of zones to run
@@ -92,7 +93,7 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
 
     def generate_card(self):
         """Create card config yaml."""
-        #modified = None
+        modified = None
         if self._program.modified:
             # dt_util.parse_datetime handles ISO strings and returns aware objects if tz info is present
             if type(self._program.modified) is datetime:
@@ -314,6 +315,7 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
 
     async def async_will_remove_from_hass(self) -> None:
         """Cancel next update."""
+
         await self.async_turn_off()
 
         if self._unsub_point_in_time:
@@ -329,6 +331,9 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
         if self._unsub_pause:
             self._unsub_pause()
             self._unsub_pause = None
+        if self._unsub_pause_water:
+            self._unsub_pause_water()
+            self._unsub_pause_water = None
 
 
     def get_next_interval(self):
@@ -397,6 +402,7 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
     async def update_next_run(self, entity=None, old_status=None, new_status=None):
         """Update the next run callback."""
 
+        d = timedelta(0)
         if self._program.sunrise_offset:
             # 1. Get the state string safely
             sun_state = self._hass.states.get("sensor.sun_next_rising")
@@ -458,14 +464,9 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
             return
         self._program_default_run_time = 0
         for zone in self._zones:
-
             kwargs = {}
             kwargs['action'] = 'update_next_run'
-            # kwargs['scheduled'] = self._scheduled
             await zone.switch.async_toggle(**kwargs)
-
-            # await zone.switch.calc_next_run()
-            # await zone.switch.calc_default_run_time()
 
         # calculate the duration of the program
         if self._program.enabled.state == CONST_OFF:
@@ -519,6 +520,7 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
         await super().async_added_to_hass()
 
         # generate the entities card yaml to replicate the custom card
+        await asyncio.sleep(1)
         if self._program.card_yaml:
             self.generate_card()
 
@@ -585,7 +587,7 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
 
         if self._program.water_source and self._program.water_source_pause:
             monitor_append(self._program.water_source, "water_source")
-        self._unsub_monitor = async_track_state_change_event(
+        self._unsub_pause_water = async_track_state_change_event(
             self._hass, tuple(monitor), self.pause_program_water_source
         )
 
@@ -759,7 +761,6 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
             kwargs['action'] = 'prepare_to_run'
             kwargs['scheduled'] = self._scheduled
             await zone.switch.async_toggle(**kwargs)
-            # await zone.switch.prepare_to_run(self._scheduled)
             zones.append(zone)
         return zones
 
@@ -840,7 +841,6 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
             self._paused = True
 
         for zone in self._zones:
-            #await zone.switch.toggle_pause()
             kwargs={}
             kwargs["action"] = "pause"
             await zone.switch.async_toggle(**kwargs)
@@ -1021,7 +1021,6 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
             await asyncio.sleep(3)
 
         await self._program.pause.async_turn_off()
-        # if self._state is True:
         self._scheduled = False
         self._running_zone = None
         self._run_zones = []

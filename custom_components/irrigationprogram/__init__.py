@@ -242,10 +242,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             adjustment=zone.get(ATTR_WATER_ADJUST),
             flow_rate=None,
         )
-        # wait for the referenced devices to come online before preceeding to
-        # the setup
 
-        # NEW CODE REQUIRED
+
         # spawn a monitoring job to determine how long a switch has taken to load
         MonitorClass(hass, z.zone, program.start_latency)
 
@@ -281,6 +279,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             else:
                 msg = f"Warning, {z.rain_sensor} has not initialised before irrigation program, check your configuration"
                 _LOGGER.debug(msg)
+
     entry.runtime_data = IrrigationData(program, zone_data)
 
     # store an object for your platforms to access
@@ -353,17 +352,19 @@ def exclude(hass: HomeAssistant):
 
 async def config_entry_update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Update listener, called when the config entry options are changed."""
+    _LOGGER.debug("%s reload from %s configuration", entry.title, entry.domain)
 
     await hass.config_entries.async_reload(entry.entry_id)
 
 
 async def async_remove_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Handle removal of an entry."""
-    _LOGGER.info("%s removed from %s configuration", entry.title, entry.domain)
+    _LOGGER.debug("%s removed from %s configuration", entry.title, entry.domain)
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
+    _LOGGER.debug("%s unload from %s configuration", entry.title, entry.domain)
     # clean up any related helpers
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS2)
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS1)

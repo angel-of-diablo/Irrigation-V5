@@ -775,11 +775,9 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
                 newdata.update({"freq": True})
 
         newdata.update({ATTR_ZONES: sortedzones})
-        # the top level of the dictionary needs to change
-        if self._updated:
-            localtimezone = ZoneInfo(self.hass.config.time_zone)
-            updated = datetime.now(localtimezone)
-            newdata.update({"updated": updated})
+        localtimezone = ZoneInfo(self.hass.config.time_zone)
+        updated = datetime.now(localtimezone)
+        newdata.update({"updated": updated})
 
         if len(sortedzones) == 1:
             await self.get_er("number", slugify(f"{self._uid}_inter_zone_delay"))
@@ -1121,12 +1119,12 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             if user_input == {}:
                 # no data provided return to the menu
                 return await self.async_step_init()
-            # find the position of the zone in the zones.
-            zones = [zone[ATTR_ZONE] for zone in self._data[ATTR_ZONES]]
+
             # register zone to delete the zone from the list of zones
             self._delete.append(user_input.get(ATTR_ZONE))
             # set up to remove entities when finalising
             friendlyname = user_input.get(ATTR_ZONE).split(".")[1]
+            await self.get_er("switch", slugify(f"{self._uid}_{friendlyname}_zone"))
             await self.get_er("switch", slugify(f"{self._uid}_{friendlyname}_config"))
             await self.get_er(
                 "switch", slugify(f"{self._uid}_{friendlyname}_ignore_sensors")

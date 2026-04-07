@@ -213,6 +213,8 @@ class ZoneLastRan(RestoreSensor):
         self._uuid = slugify(f"{unique_id}_{zone}_last_ran")
         self._localtimezone = ZoneInfo(hass.config.time_zone)
         self._attr_attribution = f"Irrigation Controller: {pname}, {zone}"
+        self._pname = pname
+        self._zname = zone
 
     async def async_added_to_hass(self):
         """HA has started."""
@@ -220,10 +222,14 @@ class ZoneLastRan(RestoreSensor):
         if last_state:
             self._state = last_state.native_value
 
-    async def set_state(self, status=None):
-        """Set the runtime state value."""
-        self._state = status
-        self.async_schedule_update_ha_state()
+    async def async_update(self):
+        """Triggered on update freq."""
+        #get the value from the program/zone
+        zonename = self._pname+'.'+self._zname
+        x = ZONES.get(zonename)
+         # Get the property object from the class
+        if x and type(x.last_run_value) is datetime:
+            self._state = x.last_run_value
 
     @property
     def unique_id(self):

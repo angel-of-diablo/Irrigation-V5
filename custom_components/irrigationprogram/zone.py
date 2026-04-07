@@ -118,6 +118,7 @@ class Zone(SwitchEntity, RestoreEntity):
         self._should_run = False
         zonename = pname+'.'+zname
         ZONES.update({zonename:self})
+
     async def async_added_to_hass(self):
         """Run when HA starts."""
         last_state = await self.async_get_last_state()
@@ -158,11 +159,6 @@ class Zone(SwitchEntity, RestoreEntity):
         self.async_schedule_update_ha_state()
         # on reload/restart ensure the zone is off
         await self.async_solenoid_turn_off()
-
-    # @property
-    # def start_pump(self) -> bool:
-    #     """Return true if switch is on."""
-    #     return False
 
     @property
     def is_on(self) -> bool:
@@ -280,9 +276,11 @@ class Zone(SwitchEntity, RestoreEntity):
     def ignore_sensors(self) -> bool:
         """Ignore rain sensor entity."""
         state = self._zonedata.ignore_sensors
-        if state and state.is_on:
-            return state.is_on
-        return True
+        if state:
+            if state.is_on:
+                return state.is_on
+            return False
+        return False
 
     @property
     def enabled(self) -> SwitchEntity:
@@ -396,6 +394,11 @@ class Zone(SwitchEntity, RestoreEntity):
         return self._next_run
 
     @property
+    def last_run_value(self):
+        """Next run value for sensor."""
+        return self._last_ran
+
+    @property
     def default_run_time_value(self):
         """Next run value for sensor."""
         return self._default_run_time
@@ -469,7 +472,7 @@ class Zone(SwitchEntity, RestoreEntity):
             'homeassistant',
             'update_entity',
             {
-                'entity_id': self.next_run.entity_id
+                'entity_id': self.last_ran.entity_id
             },
             blocking=True,
         )
@@ -912,6 +915,7 @@ class Zone(SwitchEntity, RestoreEntity):
                 notification_id="irrigation_frequency",
             )
         self._next_run = v_next_run
+
         await self.sensor_next_run_set()
         if self._state not in (CONST_PENDING, CONST_ON, CONST_ECO, CONST_OFF):
             self._status_sensor = self._state = CONST_OFF
@@ -1154,6 +1158,7 @@ class Zone(SwitchEntity, RestoreEntity):
 
     async def calc_default_run_time(self):
         """Update the run time component."""
+
         if CONST_OFF in (self.enabled.state, self.water_source):
             self._default_run_time = 0
             await self.default_run_time_set()
