@@ -1,12 +1,15 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg?logo=homeassistantcommunitystore)](https://github.com/hacs/integration) [![my_badge](https://img.shields.io/badge/Home%20Assistant-Community-41BDF5.svg?logo=homeassistant)](https://community.home-assistant.io/t/irrigation-custom-component-with-custom-card/124370) ![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/petergridge/Irrigation-V5/hassfest.yml?branch=main&label=hassfest) ![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/petergridge/Irrigation-V5/HACS.yml?branch=main&label=HACS)  ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/petergridge/Irrigation-V5/total) ![GitHub release (latest by date)](https://img.shields.io/github/downloads/petergridge/Irrigation-V5/latest/total) 
 
-## V2025.08.xx
+## Recommendation
+Add this to your configuration.yaml to exclude the remaining time counters from the recorder.
 
-### Breaking Change
-
-Pump, Water Source and Flow Meter definition have moved from the Zone configuration to the Program configuration to support better pump handling functionality.
-
-A migration will run to populate the configuration from the zone information however the configuration should be checked.
+```
+recorder:
+  exclude:
+    entity_globs:
+      # exclude rapidly changing sensor to limit DB size and improve performance
+      - sensor.remaining_time*
+```
 
 # IrrigationProgram Custom Component
 
