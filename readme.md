@@ -639,6 +639,10 @@ If you want to delay the start of the program for a number of days after the rai
 
 
 # Release history[🔝](https://github.com/petergridge/Irrigation-V5/blob/main/readme_new.md#Content)
+### V2026.03.03
+* Add Ukrainian and Russian translations
+* fix issues 251, 252, 253, 254, 255
+
 ### V2026.03.01
 * Update to custom card, possible fix to card error on some installs
 * Change interlock behaviour from 'stop running program' to 'queue program'
