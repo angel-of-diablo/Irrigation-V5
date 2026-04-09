@@ -49,7 +49,6 @@ async def async_setup_entry(
     pname = config_entry.runtime_data.program.name
 
     sensors = []
-    # sensor = RemainingTime(hass, pname, unique_id)
     sensor = RemainingTime(hass, pname, unique_id)
     sensors.append(sensor)
     config_entry.runtime_data.program.remaining_time = sensor
@@ -181,12 +180,6 @@ class ZoneNextRun(SensorEntity):
         if x and type(x.next_run_value) is datetime:
             self._state = x.next_run_value
 
-
-    # async def set_value(self, status):
-    #     """Set the runtime state value."""
-    #     self._state = status
-    #     self.async_schedule_update_ha_state()
-
     @property
     def unique_id(self):
         """Return a unique_id for this entity."""
@@ -247,8 +240,10 @@ class ZoneRemainingTime(SensorEntity):
 
     _attr_has_entity_name = True
     _attr_should_poll = False
+    _attr_entity_registry_enabled_default = False
     _attr_translation_key = "remaining_time"
     _unrecorded_attributes = frozenset({MATCH_ALL})
+    _entity_component_unrecorded_attributes = frozenset({MATCH_ALL})
     _attr_device_class = SensorDeviceClass.DATE
 
     def __init__(self, hass: HomeAssistant, pname, zone, unique_id) -> None:
@@ -258,6 +253,8 @@ class ZoneRemainingTime(SensorEntity):
         self._attr_attribution = f"Irrigation Controller: {pname}, {zone}"
         self._pname = pname
         self._zname = zone
+
+
 
     async def async_update(self):
         """Triggered on update freq."""
@@ -358,9 +355,11 @@ class RemainingTime(SensorEntity):
 
     _attr_has_entity_name = True
     _attr_should_poll = False
+    _attr_entity_registry_enabled_default = False
     _attr_translation_key = "remaining_time"
     _attr_attribution = "Irrigation Controller"
     _unrecorded_attributes = frozenset({MATCH_ALL})
+    _entity_component_unrecorded_attributes = frozenset({MATCH_ALL})
     _attr_device_class = SensorDeviceClass.DATE
 
     def __init__(self, hass: HomeAssistant, pname, unique_id) -> None:

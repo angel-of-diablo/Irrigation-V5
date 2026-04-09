@@ -545,8 +545,10 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
         monitor_append(self._program.start_time.entity_id, "start_time")
         if self._program.sunrise_offset:
             monitor_append(self._program.sunrise_offset.entity_id, "sunrise_offset")
+            monitor_append("sensor.sun_next_rising", None)
         if self._program.sunset_offset:
             monitor_append(self._program.sunset_offset.entity_id, "sunset_offset")
+            monitor_append("sensor.sun_next_setting", None)
         monitor_append(self._program.enabled.entity_id, "enabled")
         if self._program.rain_delay:
             monitor_append(self._program.rain_delay.entity_id, "rain_delay")
