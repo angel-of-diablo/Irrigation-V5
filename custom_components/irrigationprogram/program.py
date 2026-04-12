@@ -861,7 +861,6 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
             # break out if program terminated
             self._program_remaining = 0
             await self.remaining_time_set()
-#            await asyncio.sleep(1)
             return running_zones
 
         if self._paused:
@@ -942,7 +941,6 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
 
     async def zone_turn_on(self, zone, last=None):
         """Turn on the irrigation zone."""
-
         await zone.set_scheduled(self._scheduled)
         # run in the event loop to support independant executions
         self.hass.async_create_task(zone.async_turn_on_from_program(last))
@@ -950,7 +948,6 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
 
     async def async_turn_on(self, **kwargs):
         """Turn on the switch."""
-
         if self._program.enabled.state == CONST_OFF and self._scheduled is True:
             return
         self._stop = False

@@ -770,6 +770,7 @@ class Zone(SwitchEntity, RestoreEntity):
 
     async def calc_next_run(self):
         """Determine when a zone will next attempt to run."""
+
         # something has changed recalculate the run time
         if self._status in (CONST_ECO, CONST_ON, CONST_PENDING):
             # zone is running no need to recalc next run until it has completed
@@ -1245,7 +1246,6 @@ class Zone(SwitchEntity, RestoreEntity):
 
     async def async_turn_on_from_program(self, last=None):
         """Start the zone watering cycle."""
-
         self._state = self._status_sensor = self._status = CONST_ON
         await self.status_sensor_set()
         self.async_schedule_update_ha_state()

@@ -392,11 +392,6 @@ async def async_setup(hass: HomeAssistant, config):
     path = Path(__file__).parent / "www"
 
     try:
-        # utils.register_static_path(
-        #     hass.http.app,
-        #     "/irrigationprogram/www/irrigation-card.js",
-        #     path / "irrigation-card.js",
-        # )
 
         await hass.http.async_register_static_paths(
             [StaticPathConfig("/irrigationprogram/www/irrigation-card.js", str(path / "irrigation-card.js"))]

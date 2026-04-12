@@ -179,6 +179,7 @@ class ZoneNextRun(SensorEntity):
          # Get the property object from the class
         if x and type(x.next_run_value) is datetime:
             self._state = x.next_run_value
+        self.async_schedule_update_ha_state()
 
     @property
     def unique_id(self):
@@ -223,6 +224,7 @@ class ZoneLastRan(RestoreSensor):
          # Get the property object from the class
         if x and type(x.last_run_value) is datetime:
             self._state = x.last_run_value
+        self.async_schedule_update_ha_state()
 
     @property
     def unique_id(self):
@@ -240,7 +242,6 @@ class ZoneRemainingTime(SensorEntity):
 
     _attr_has_entity_name = True
     _attr_should_poll = False
-    _attr_entity_registry_enabled_default = False
     _attr_translation_key = "remaining_time"
     _unrecorded_attributes = frozenset({MATCH_ALL})
     _entity_component_unrecorded_attributes = frozenset({MATCH_ALL})
@@ -321,7 +322,6 @@ class ZoneDefaultRunTime(SensorEntity):
             value = x.default_run_time
         await self.set_value(value)
 
-
     async def set_value(self, value):
         """Set the remaining time state value."""
         # convert seconds to datetime
@@ -355,7 +355,6 @@ class RemainingTime(SensorEntity):
 
     _attr_has_entity_name = True
     _attr_should_poll = False
-    _attr_entity_registry_enabled_default = False
     _attr_translation_key = "remaining_time"
     _attr_attribution = "Irrigation Controller"
     _unrecorded_attributes = frozenset({MATCH_ALL})
@@ -431,7 +430,6 @@ class DefaultRunTime(SensorEntity):
         if x:
             value = x.default_run_time_value
         await self.set_value(value)
-
 
     async def set_value(self, value):
         """Set the runtime state value."""
