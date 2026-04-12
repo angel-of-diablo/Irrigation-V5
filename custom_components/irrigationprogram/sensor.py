@@ -91,7 +91,6 @@ class ZoneStatus(SensorEntity):
     _attr_has_entity_name = True
     _attr_should_poll = False
     _attr_translation_key = "zone_status"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(  # noqa: D107
         self, hass: HomeAssistant, pname, zone, unique_id
@@ -161,7 +160,6 @@ class ZoneNextRun(SensorEntity):
     _attr_should_poll = False
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_translation_key = "zone_next_run"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(self, hass: HomeAssistant, pname, zone, unique_id) -> None:
         """Init."""
@@ -199,7 +197,6 @@ class ZoneLastRan(RestoreSensor):
     _attr_should_poll = False
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_translation_key = "zone_last_ran"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(self, hass: HomeAssistant, pname, zone, unique_id) -> None:
         """Init."""
@@ -243,8 +240,6 @@ class ZoneRemainingTime(SensorEntity):
     _attr_has_entity_name = True
     _attr_should_poll = False
     _attr_translation_key = "remaining_time"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
-    _entity_component_unrecorded_attributes = frozenset({MATCH_ALL})
     _attr_device_class = SensorDeviceClass.DATE
 
     def __init__(self, hass: HomeAssistant, pname, zone, unique_id) -> None:
@@ -254,8 +249,6 @@ class ZoneRemainingTime(SensorEntity):
         self._attr_attribution = f"Irrigation Controller: {pname}, {zone}"
         self._pname = pname
         self._zname = zone
-
-
 
     async def async_update(self):
         """Triggered on update freq."""
@@ -301,7 +294,6 @@ class ZoneDefaultRunTime(SensorEntity):
     _attr_has_entity_name = True
     _attr_should_poll = False
     _attr_translation_key = "default_run_time"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
     _attr_device_class = SensorDeviceClass.DATE
 
     def __init__(self, hass: HomeAssistant, pname, zone, unique_id) -> None:
@@ -357,8 +349,6 @@ class RemainingTime(SensorEntity):
     _attr_should_poll = False
     _attr_translation_key = "remaining_time"
     _attr_attribution = "Irrigation Controller"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
-    _entity_component_unrecorded_attributes = frozenset({MATCH_ALL})
     _attr_device_class = SensorDeviceClass.DATE
 
     def __init__(self, hass: HomeAssistant, pname, unique_id) -> None:
@@ -412,7 +402,6 @@ class DefaultRunTime(SensorEntity):
     _attr_should_poll = False
     _attr_translation_key = "default_run_time"
     _attr_attribution = "Irrigation Controller"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
     _attr_device_class = SensorDeviceClass.DATE
 
     def __init__(self, hass: HomeAssistant, pname, unique_id) -> None:
