@@ -145,7 +145,7 @@
 			"zone_required": "Au moins une zone doit être définie",
 			"invalid_days_group": "Les options de fréquence dans la liste doivent être Mon,Tue,Wed,Thu,Fri,Sat,Sun",
 			"invalid_option": "Les options de fréquence dans la liste doivent être numeriques ou Mon,Tue,Wed,Thu,Fri,Sat,Sun",
-			"invalid_sensor": "Frequency option, entered sensor is incorrect or offline"
+			"invalid_sensor": "Options de fréquences, Le capteur saidi est erronee ou innaccessible"
 		},
 		"step": {
 			"user": {
@@ -168,7 +168,7 @@
 					"zone": "Entité de commutateur de zone",
 					"freq": "La fréquence de zone remplace la fréquence du programme",
 					"eco": "Activer l'option ECO attente et répétition",
-					"watering_type": "Watering type",
+					"watering_type": "Type d'arrosage",
 					"water_adjustment": "Entité d'ajustement de l'exécution",
 					"rain_sensor": "Entité de capteur de pluie",
 					"order": "Ordre de lancement de zone"
@@ -188,7 +188,7 @@
 					"zone": "Entité de commutateur de zone",
 					"freq": "La fréquence de zone remplace la fréquence du programme",
 					"eco": "Activer l'option ECO attente et répétition",
-					"watering_type": "Watering type",
+					"watering_type": "Type d'arrosage",
 					"water_adjustment": "Entité d'ajustement de l'exécution",
 					"rain_sensor": "Entité de capteur de pluie",
 					"order": "Ordre de lancement de zone"
@@ -217,19 +217,19 @@
 				"title": "Options Avancées",
 				"data": {
 					"sun":"Options d'horaire de démarrage",
-					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
+					"interlock": "Séléctionné, les programmes seront lancés a la chaine. déséléctionné ils seront lancés simultanément",
 					"rain_behaviour": "Comportement du capteur de pluie",
-					"min_sec": "Watering time unit",
+					"min_sec": "Unité du temps d'arrosage",
 					"water_max": "Temps/Volume maximum d'arrosage",
 					"water_step": "Pas de Temps/Volume",
 					"parallel": "Exécution parallèle de zone",
-					"pump_delay": "Apply lead or lag time for pump starting",
+					"pump_delay": "Appliquer un delais ou une avance pour l'allumage de la pompe",
 					"card_yaml": "Activer la création de carte d'entité YAML",
 					"zone_delay_max": "Délai max inter zone",
 					"rain_delay_on": "Différer le prochain lancement si pluie",
 					"latency": "Délai pour les équipements peu réactifs",
 					"start_latency": "Délai pour les équipements démarrant lentement",
-					"pause_on_water_source": "Pause program when water source sensor turns off"
+					"pause_on_water_source": "Suspendre le programme quand le capteur de la source d'eau est désactivé"
 				}
 			}
 		}
@@ -241,7 +241,7 @@
 			"zone_required": "Au moins une zone doit être définie",
 			"invalid_days_group": "Les options de fréquence dans la liste doivent être Mon,Tue,Wed,Thu,Fri,Sat,Sun",
 			"invalid_option": "Les options de fréquence dans la liste doivent être numeriques ou Mon,Tue,Wed,Thu,Fri,Sat,Sun",
-			"invalid_sensor": "Frequency option, entered sensor is incorrect or offline"
+			"invalid_sensor": "Option de fréquence, Le capteur saisis est erronné ou déconnecté"
 		},
 		"step": {
 			"user": {
@@ -260,19 +260,19 @@
 				"description": "",
 				"data": {
 					"sun":"Options d'horaire de démarrage",
-					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
+					"interlock": "Séléctionné, les programmes seront lancés a la chaine. déséléctionné ils seront lancés simultanément",
 					"rain_behaviour": "Comportement du capteur de pluie",
-					"min_sec": "Unité d'arrosage",
+					"min_sec": "Unité du temps d'arrosage",
 					"water_max": "Temps/Volume maximum d'arrosage",
 					"water_step": "Pas de Temps/Volume",
 					"parallel": "Exécution parallèle de zone",
-					"pump_delay": "Apply lead or lag time for pump starting",
+					"pump_delay": "Appliquer un delais ou une avance pour l'allumage de la pompe",
 					"card_yaml": "Activer la création de carte d'entité YAML",
 					"zone_delay_max": "Délai max inter zone",
 					"rain_delay_on": "Différer le prochain lancement si pluie",
 					"latency": "Délai pour les équipements peu réactifs",
 					"start_latency": "Délai pour les équipements démarrant lentement",
-					"pause_on_water_source": "Pause program when water source sensor turns off"
+					"pause_on_water_source": "Suspendre le programme quand le capteur de la source d'eau est désactivé"
 				}
 			},
 			"update_program": {
@@ -294,7 +294,7 @@
 					"zone": "Entité de commutateur de zone",
 					"freq": "La fréquence de zone remplace la fréquence du programme",
 					"eco": "Activer l'option ECO attente et répétition",
-					"watering_type": "Watering type",
+					"watering_type": "Type d'arrosage",
 					"water_adjustment": "Entité d'ajustement de l'exécution",
 					"rain_sensor": "Entité de capteur de pluie",
 					"order": "Ordre de lancement de zone"
@@ -307,7 +307,7 @@
 					"zone": "Entité de commutateur de zone",
 					"freq": "La fréquence de zone remplace la fréquence du programme",
 					"eco": "Activer l'option ECO attente et répétition",
-					"watering_type": "Watering type",
+					"watering_type": "Type d'arrosage",
 					"water_adjustment": "Entité d'ajustement de l'exécution",
 					"rain_sensor": "Entité de capteur de pluie",
 					"order": "Ordre de lancement de zone"
