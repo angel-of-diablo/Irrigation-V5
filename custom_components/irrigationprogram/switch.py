@@ -86,7 +86,7 @@ class ProgramConfig(SwitchEntity, RestoreEntity):
         self._unique_id = unique_id
         self._attr_translation_key = "config"
         self._attr_has_entity_name = True
-        self._unrecorded_attributes = frozenset({MATCH_ALL})
+        # self._unrecorded_attributes = frozenset({MATCH_ALL})
 
     async def async_added_to_hass(self):
         """HA has started."""
@@ -129,7 +129,7 @@ class ProgramPause(SwitchEntity, RestoreEntity):
     """Pause Program."""
     _attr_has_entity_name = True
     _attr_translation_key = "pause"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
+    # _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(self, unique_id, name) -> None:
         """Initialize a Irrigation program."""
@@ -173,7 +173,7 @@ class ZoneConfig(SwitchEntity, RestoreEntity):
     """."""
     _attr_has_entity_name = True
     _attr_translation_key = "config"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
+    # _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(self, unique_id, pname, name) -> None:
         """Initialize a Irrigation program."""
@@ -221,7 +221,7 @@ class IgnoreRainSensor(SwitchEntity, RestoreEntity):
     """."""
     _attr_has_entity_name = True
     _attr_translation_key = "ignore_sensor"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
+    # _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(self, unique_id, pname, name) -> None:
         """Initialize a Irrigation program."""
@@ -269,7 +269,7 @@ class EnableProgram(SwitchEntity, RestoreEntity):
     """."""
     _attr_has_entity_name = True
     _attr_translation_key = "enable_program"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
+    # _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(self, unique_id, pname) -> None:
         """Initialize a Irrigation program."""
@@ -318,7 +318,7 @@ class EnableZone(SwitchEntity, RestoreEntity):
     """."""
     _attr_has_entity_name = True
     _attr_translation_key = "enable_zone"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
+    # _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(self, unique_id, pname, zname) -> None:
         """Initialize a Irrigation program."""
@@ -362,7 +362,7 @@ class EnableRainDelay(SwitchEntity, RestoreEntity):
     """."""
     _attr_has_entity_name = True
     _attr_translation_key = "enable_rain_delay"
-    _unrecorded_attributes = frozenset({MATCH_ALL})
+    # _unrecorded_attributes = frozenset({MATCH_ALL})
 
     def __init__(self, unique_id, name) -> None:
         """Initialize a Irrigation program."""

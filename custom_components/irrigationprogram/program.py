@@ -561,7 +561,7 @@ class IrrigationProgram(SwitchEntity, RestoreEntity):
             monitor_append(self._program.water_source, "water_source")
 
         for zone in self._zones:
-            monitor_append(zone.zone, "zone")
+            monitor_append(zone.switch.entity_id, "zone")
             while zone.enabled.entity_id is None:
                 await asyncio.sleep(1)
             monitor_append(zone.enabled.entity_id, "enabled")

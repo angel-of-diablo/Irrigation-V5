@@ -506,7 +506,7 @@ class Zone(SwitchEntity, RestoreEntity):
             return False
 
         # Zone is diabled and not started from the zone (from the program)
-        if self.status.state in [CONST_ZONE_DISABLED] and not self._zone_manual_start:
+        if self.status.state == CONST_ZONE_DISABLED and not self._zone_manual_start:
             return False
 
         # A manual start
@@ -884,7 +884,6 @@ class Zone(SwitchEntity, RestoreEntity):
                 hour=starthour, minute=startmin, second=00, microsecond=00
             )
             day = v_last_ran.day
-
             if self.frequency == "Odd" :
                     v_next_run = self.get_next_odd_day(v_last_ran)
             elif self.frequency == "Even" :
