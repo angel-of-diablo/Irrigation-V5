@@ -34,9 +34,9 @@
 		},
 		"interlock": {
 			"options": {
-				"strict": "Strict - turn off other programs when starting, turn off when another program starts",
-				"loose": "Loose - turn off all other programs when starting, stay running unless a 'strict' program starts",
-				"off": "Off - turn off 'strict' programs only, stay running unless a 'strict' program starts"
+				"strict": "Estricto - Detiene otros programas cuando empieza, se detiene cuando se inicia otro programa",
+				"loose": "Secundario - Detiene otros programas cuando empieza, sigue a menos que se inicie un programa 'estricto'",
+				"off": "Apagado - Detiene solo los programas 'estrictos', sigue a menos que se inicie un programa 'estricto'"
 			}
 		}
 	},
@@ -55,7 +55,7 @@
 					"unavailable": "No disponible",
 					"raining": "Lloviendo",
 					"adjusted_off": "Ajustado a apagado",
-					"no_water_source": "No se detecta origen de agua",
+					"no_water_source": "No se detecta fuente de agua",
 					"zone_disabled": "Zona deshabilitada",
 					"paused": "Programa pausado"
 				}
@@ -114,7 +114,7 @@
 				"name":"Ignorar sensores"
 			},
 			"enable_rain_delay":{
-				"name":"Enable rain delay"
+				"name":"Suspender por lluvia"
 			},
 			"enable_program":{
 				"name":"Habilitar programa"
@@ -145,7 +145,7 @@
 			"zone_required": "Al menos una zona debe ser definida",
 			"invalid_days_group": "Las opciones de frecuiencia en la lista deben ser Lun,Mar,Mie,Jue,Vie,Sáb,Dom",
 			"invalid_option": "La opción de frecuencia debe ser numérica o Lun,Mar,Mie,Jue,Vie,Sáb,Dom",
-			"invalid_sensor": "Frequency option, entered sensor is incorrect or offline"
+			"invalid_sensor": "Optiones de frecuencia, el sensor seleccionado esta invalido o desconectado"
 		},
 		"step": {
 			"user": {
@@ -168,7 +168,7 @@
 					"zone": "Interruptor de Zona",
 					"freq": "Remplazar la frecuencia del programa con la frecuencia de la zona",
 					"eco": "Habilitar opción eco esperar y reiterar",
-					"watering_type": "Watering type",
+					"watering_type": "Tipo de irrigaciòn",
 					"water_adjustment": "Sensor de ajuste de tiempo de riego",
 					"rain_sensor": "Sensor binario de lluvia",
 					"order": "Orden de ejecución de zona"
@@ -188,7 +188,7 @@
 					"zone": "Interruptor de Zona",
 					"freq": "Remplazar la frecuencia del programa con la frecuencia de la zona",
 					"eco": "Habilitar opción eco esperar y reiterar",
-					"watering_type": "Watering type",
+					"watering_type": "Tipo de irrigaciòn",
 					"water_adjustment": "Sensor de ajuste de tiempo de riego",
 					"rain_sensor": "Sensor binario de lluvia",
 					"order": "Orden de ejecución de zona"
@@ -217,19 +217,19 @@
 				"title": "Opciones avanzadas",
 				"data": {
 					"start_type":"Opciones de hora de inicio",
-					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
+					"interlock": "Selecionado, los programas se colaran. Deseleccionado, se ejecutaràn juntos",
 					"rain_behaviour": "Comportamiento del sensor de lluvia",
-					"min_sec": "Watering time unit",
+					"min_sec": "Unidad de tiempo de irrigaciòn",
 					"water_max": "Tiempo/volumen máximo de riego",
 					"water_step": "Paso de Tiempo/volumen",
 					"parallel": "Ejecución de zonas en paralelo",
-					"pump_delay": "Apply lead or lag time for pump starting",
+					"pump_delay": "Aplicar un adelanto o atrazo al tiempo de inicio de la bomba",
 					"card_yaml": "Habilitar la creción de tarjeta de entidades en yaml",
-					"zone_delay_max": "Maximum zone transition delay",
-					"rain_delay_on": "Delay the next run when rain detected",
-					"latency": "Wait time for slow responding (high latency) devices",
-					"start_latency": "Wait time for devices that load slowly on startup",
-					"pause_on_water_source": "Pause program when water source sensor turns off"
+					"zone_delay_max": "Desfase maximo entre zonas",
+					"rain_delay_on": "Desfasar el proximo inicio al detectar lluvia",
+					"latency": "Tiempo de espera para equipos poco reactivo",
+					"start_latency": "Tiempo de espera para equipos de inicio lento",
+					"pause_on_water_source": "Suspender programas cuando el sensor de fuente de agua esta desactivado"
 				}
 			}
 		}
@@ -241,7 +241,7 @@
 			"zone_required": "Al menos una zona debe ser definida",
 			"invalid_days_group": "Las opciones de frecuiencia en la lista deben ser Lun,Mar,Mie,Jue,Vie,Sáb,Dom",
 			"invalid_option": "La opción de frecuencia debe ser numérica o Lun,Mar,Mie,Jue,Vie,Sáb,Dom",
-			"invalid_sensor": "Frequency option, entered sensor is incorrect or offline"
+			"invalid_sensor": "Optiones de frecuencia, el sensor seleccionado esta invalido o desconectado"
 		},
 		"step": {
 			"user": {
@@ -260,19 +260,19 @@
 				"description": "",
 				"data": {
 					"start_type":"Opciones de hora de inicio",
-					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
+					"interlock": "Selecionado, los programas se colaran. Deseleccionado, se ejecutaràn juntos",
 					"rain_behaviour": "Comportamiento del sensor de lluvia",
-					"min_sec": "Watering time unit",
+					"min_sec": "Unidad de tiempo de irrigaciòn",
 					"water_max": "Tiempo/volumen máximo de riego",
 					"water_step": "Paso de Tiempo/volumen",
 					"parallel": "Ejecución de zonas en paralelo",
-					"pump_delay": "Apply lead or lag time for pump starting",
+					"pump_delay": "Aplicar un adelanto o atrazo al tiempo de inicio de la bomba",
 					"card_yaml": "Habilitar la creción de tarjeta de entidades en yaml",
-					"zone_delay_max": "Maximum zone transition delay",
-					"rain_delay_on": "Delay the next run when rain detected",
-					"latency": "Wait time for slow responding (high latency) devices",
-					"start_latency": "Wait time for devices that load slowly on startup",
-					"pause_on_water_source": "Pause program when water source sensor turns off"
+					"zone_delay_max": "Desfase maximo entre zonas",
+					"rain_delay_on": "Desfasar el proximo inicio al detectar lluvia",
+					"latency": "Tiempo de espera para equipos poco reactivo",
+					"start_latency": "Tiempo de espera para equipos de inicio lento",
+					"pause_on_water_source": "Suspender programas cuando el sensor de fuente de agua esta desactivado"
 				}
 			},
 			"update_program": {
@@ -294,7 +294,7 @@
 					"zone": "Interruptor de Zona",
 					"freq": "Remplazar la frecuencia del programa con la frecuencia de la zona",
 					"eco": "Habilitar opción eco esperar y reiterar",
-					"watering_type": "Watering type",
+					"watering_type": "Tipo de irrigaciòn",
 					"water_adjustment": "Sensor de ajuste de tiempo de riego",
 					"rain_sensor": "Sensor binario de lluvia",
 					"order": "Orden de ejecución de zona"
@@ -307,7 +307,7 @@
 					"zone": "Interruptor de Zona",
 					"freq": "Remplazar la frecuencia del programa con la frecuencia de la zona",
 					"eco": "Habilitar opción eco esperar y reiterar",
-					"watering_type": "Watering type",
+					"watering_type": "Tipo de irrigaciòn",
 					"water_adjustment": "Sensor de ajuste de tiempo de riego",
 					"rain_sensor": "Sensor binario de lluvia",
 					"order": "Orden de ejecución de zona"
