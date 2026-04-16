@@ -145,7 +145,7 @@
 			"zone_required": "Au moins une zone doit être définie",
 			"invalid_days_group": "Les options de fréquence dans la liste doivent être Mon,Tue,Wed,Thu,Fri,Sat,Sun",
 			"invalid_option": "Les options de fréquence dans la liste doivent être numeriques ou Mon,Tue,Wed,Thu,Fri,Sat,Sun",
-			"invalid_sensor": "Options de fréquences, Le capteur saidi est erronee ou innaccessible"
+			"invalid_sensor": "Option de fréquence, le capteur saisis est erroné ou déconnecté"
 		},
 		"step": {
 			"user": {
@@ -241,7 +241,7 @@
 			"zone_required": "Au moins une zone doit être définie",
 			"invalid_days_group": "Les options de fréquence dans la liste doivent être Mon,Tue,Wed,Thu,Fri,Sat,Sun",
 			"invalid_option": "Les options de fréquence dans la liste doivent être numeriques ou Mon,Tue,Wed,Thu,Fri,Sat,Sun",
-			"invalid_sensor": "Option de fréquence, Le capteur saisis est erronné ou déconnecté"
+			"invalid_sensor": "Option de fréquence, le capteur saisis est erroné ou déconnecté"
 		},
 		"step": {
 			"user": {
