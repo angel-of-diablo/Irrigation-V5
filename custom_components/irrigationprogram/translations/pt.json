@@ -157,7 +157,7 @@
 					"freq_options": "Selecione ou adicione opções do intervalo de rega",
 					"device_type": "Tipo de controlador",
 					"flow_sensor": "Sensor de fluxo",
-					"water_source_active": "Sensor binário da fonte de água",
+					"water_source_active": "Sensor da fonte de água",
 					"pump": "Comando da bomba"
 				}
 			},
@@ -168,9 +168,9 @@
 					"zone": "Comando da zona",
 					"freq": "Trocar o intervalo de rega da zona pelo intervalo de rega do programa",
 					"eco": "Ativar o modo Ecológico espera e repetição",
-					"watering_type": "Watering type",
+					"watering_type": "Tipo de rega",
 					"water_adjustment": "Sensor de ajuste do tempo de rega",
-					"rain_sensor": "Sensor binário de chuva",
+					"rain_sensor": "Sensor de chuva",
 					"order": "Ordem de execução da zona"
 				}
 			},
@@ -188,9 +188,9 @@
 					"zone": "Comando da zona",
 					"freq": "Trocar o intervalo de rega da zona pelo intervalo de rega do programa",
 					"eco": "Ativar o modo Ecológico espera e repetição",
-					"watering_type": "Watering type",
+					"watering_type": "Tipo de rega",
 					"water_adjustment": "Sensor de ajuste do tempo de rega",
-					"rain_sensor": "Sensor binário de chuva",
+					"rain_sensor": "Sensor de chuva",
 					"order": "Ordem de execução da zona"
 				}
 			},
@@ -217,13 +217,13 @@
 				"title": "Opções Avançadas",
 				"data": {
 					"start_type":"Opções de hora de início",
-					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
+					"interlock": "Se forem selecionados, os programas entrarão em fila de espera. Se não forem selecionados, serão executados em simultâneo",
 					"rain_behaviour": "Comportamento do sensor de chuva",
 					"min_sec": "Unidades da temporização de rega",
 					"water_max": "Tempo/volume máximo de rega",
 					"water_step": "Passo de Tempo/volume",
 					"parallel": "Execução de zonas em paralelo",
-					"pump_delay": "Apply lead or lag time for pump starting",
+					"pump_delay": "Aplicar um tempo de antecedência ou de atraso para o arranque da bomba",
 					"card_yaml": "Permitir a criação de cartão de entidades em yaml",
 					"zone_delay_max": "Atraso máximo de transição de zona",
 					"rain_delay_on": "Adiar o próximo arranque quando for detetada chuva",
@@ -241,7 +241,7 @@
 			"zone_required": "Pelo menos uma zona deve ser definida",
 			"invalid_days_group": "Os intervalos de rega na lista devem ser Seg, Ter, Qua, Qui, Sex, Sáb, Dom",
 			"invalid_option": "O intervalo de rega deve ser numérico ou Seg, Ter, Qua, Qui, Sex, Sáb, Dom",
-			"invalid_sensor": "Opção de frequência, o sensor introduzido está incorreto ou desconectado"
+			"invalid_sensor": "Opção de frequência, o sensor introduzido está incorreto ou desconetado"
 		},
 		"step": {
 			"user": {
@@ -260,13 +260,13 @@
 				"description": "",
 				"data": {
 					"start_type":"Opções de hora de início",
-					"interlock": "Selected, programs will queue. Unselected, will run simultaneously",
+					"interlock": "Se forem selecionados, os programas entrarão em fila de espera. Se não forem selecionados, serão executados em simultâneo",
 					"rain_behaviour": "Comportamento do sensor de chuva",
 					"min_sec": "Unidades da temporização de rega",
 					"water_max": "Tempo/volume máximo de rega",
 					"water_step": "Passo de Tempo/volume",
 					"parallel": "Execução de zonas em paralelo",
-					"pump_delay": "Apply lead or lag time for pump starting",
+					"pump_delay": "Aplicar um tempo de antecedência ou de atraso para o arranque da bomba",
 					"card_yaml": "Permitir a criação de cartão de entidades em yaml",
 					"zone_delay_max": "Atraso máximo de transição de zona",
 					"rain_delay_on": "Adiar o próximo arranque quando for detetada chuva",
@@ -283,7 +283,7 @@
 					"freq_options": "Selecione ou adicione opções do intervalo de rega",
 					"device_type": "Tipo de controlador",
 					"flow_sensor": "Sensor de fluxo",
-					"water_source_active": "Sensor binário da fonte de água",
+					"water_source_active": "Sensor da fonte de água",
 					"pump": "Comando da bomba"
 				}
 			},
@@ -294,9 +294,9 @@
 					"zone": "Comando da zona",
 					"freq": "Trocar o intervalo de rega da zona pelo intervalo de rega do programa",
 					"eco": "Ativar o modo Ecológico espera e repetição",
-					"watering_type": "Watering type",
+					"watering_type": "Tipo de rega",
 					"water_adjustment": "Sensor de ajuste do tempo de rega",
-					"rain_sensor": "Sensor binário de chuva",
+					"rain_sensor": "Sensor de chuva",
 					"order": "Ordem de execução da zona"
 				}
 			},
@@ -307,9 +307,9 @@
 					"zone": "Comando da zona",
 					"freq": "Trocar o intervalo de rega da zona pelo intervalo de rega do programa",
 					"eco": "Ativar o modo Ecológico espera e repetição",
-					"watering_type": "Watering type",
+					"watering_type": "Tipo de rega",
 					"water_adjustment": "Sensor de ajuste do tempo de rega",
-					"rain_sensor": "Sensor binário de chuva",
+					"rain_sensor": "Sensor de chuva",
 					"order": "Ordem de execução da zona"
 				}
 			},
